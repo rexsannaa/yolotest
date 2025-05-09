@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './TrainingDemo.css';
+// 移除 './TrainingDemo.css' 的引入，使用98.css的樣式
 
 // 模擬資料增強方法
 const augmentationMethods = [
@@ -77,24 +77,26 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
     switch (activeTab) {
       case 'images':
         return (
-          <div className="tab-content images-tab">
-            <div className="tab-header">
+          <div className="window-body">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h3>訓練圖像 ({capturedImages.length})</h3>
-              <button className="win95-button" onClick={onCaptureImage}>
+              <button onClick={onCaptureImage}>
                 捕獲新圖像
               </button>
             </div>
             
             {capturedImages.length === 0 ? (
-              <div className="no-images">
+              <div style={{ textAlign: 'center', padding: '20px', background: 'white', border: '1px solid #888' }}>
                 <p>尚未捕獲圖像。點擊上方按鈕以捕獲新圖像。</p>
               </div>
             ) : (
-              <div className="image-grid">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '16px', background: 'white', padding: '16px', border: '1px solid #888' }}>
                 {capturedImages.map((img, index) => (
-                  <div key={index} className="image-item">
-                    <img src={img} alt={`捕獲 ${index + 1}`} />
-                    <div className="image-number">圖像 {index + 1}</div>
+                  <div key={index} style={{ position: 'relative', border: '1px solid #888', overflow: 'hidden' }}>
+                    <img src={img} alt={`捕獲 ${index + 1}`} style={{ width: '100%', height: '120px', objectFit: 'cover' }} />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.7)', color: 'white', padding: '4px', fontSize: '12px', textAlign: 'center' }}>
+                      圖像 {index + 1}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -104,18 +106,17 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
         
       case 'augment':
         return (
-          <div className="tab-content augment-tab">
+          <div className="window-body">
             <h3>資料增強選項</h3>
-            <div className="augmentation-options">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '8px', marginBottom: '16px' }}>
               {augmentations.map(aug => (
-                <div key={aug.id} className="augmentation-option">
-                  <label className="win95-checkbox">
+                <div key={aug.id} style={{ padding: '4px' }}>
+                  <label className="field-row">
                     <input
                       type="checkbox"
                       checked={aug.enabled}
                       onChange={() => handleAugmentationToggle(aug.id)}
                     />
-                    <span className="checkmark"></span>
                     {aug.name}
                   </label>
                 </div>
@@ -124,22 +125,25 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
             
             <h3>預覽增強效果</h3>
             {capturedImages.length > 0 ? (
-              <div className="augmentation-preview">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '16px', background: 'white', padding: '16px', border: '1px solid #888' }}>
                 {augmentations
                   .filter(aug => aug.enabled)
                   .map(aug => (
-                    <div key={aug.id} className="augmented-image">
+                    <div key={aug.id} style={{ position: 'relative', border: '1px solid #888', overflow: 'hidden' }}>
                       <img 
                         src={capturedImages[0]} 
                         alt={`${aug.name} 增強`}
                         className={`filter-${aug.id}`}
+                        style={{ width: '100%', height: '120px', objectFit: 'cover' }}
                       />
-                      <div className="augmentation-name">{aug.name}</div>
+                      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', backgroundColor: 'rgba(0, 0, 0, 0.7)', color: 'white', padding: '4px', fontSize: '12px', textAlign: 'center' }}>
+                        {aug.name}
+                      </div>
                     </div>
                   ))}
               </div>
             ) : (
-              <div className="no-images">
+              <div style={{ textAlign: 'center', padding: '20px', background: 'white', border: '1px solid #888' }}>
                 <p>尚未捕獲圖像。請先捕獲一些圖像以預覽增強效果。</p>
               </div>
             )}
@@ -148,43 +152,51 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
         
       case 'train':
         return (
-          <div className="tab-content train-tab">
+          <div className="window-body">
             <h3>選擇訓練模型</h3>
-            <div className="model-selection">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
               {modelOptions.map(model => (
                 <div 
                   key={model.id} 
-                  className={`model-option ${selectedModel === model.id ? 'selected' : ''}`}
+                  style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    padding: '8px', 
+                    border: '1px solid #888', 
+                    cursor: 'pointer', 
+                    backgroundColor: selectedModel === model.id ? '#000080' : 'white',
+                    color: selectedModel === model.id ? 'white' : 'black'
+                  }}
                   onClick={() => handleModelSelect(model.id)}
                 >
-                  <div className="model-name">{model.name}</div>
-                  <div className="model-description">{model.description}</div>
+                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{model.name}</div>
+                  <div style={{ fontSize: '12px' }}>{model.description}</div>
                 </div>
               ))}
             </div>
             
             <h3>訓練設置</h3>
-            <div className="training-settings">
-              <div className="setting-item">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '16px' }}>
+              <div className="field-row">
                 <label>批次大小：</label>
-                <select className="win95-select">
+                <select>
                   <option>4</option>
                   <option>8</option>
                   <option selected>16</option>
                   <option>32</option>
                 </select>
               </div>
-              <div className="setting-item">
+              <div className="field-row">
                 <label>學習率：</label>
-                <select className="win95-select">
+                <select>
                   <option>0.001</option>
                   <option selected>0.01</option>
                   <option>0.1</option>
                 </select>
               </div>
-              <div className="setting-item">
+              <div className="field-row">
                 <label>迭代次數：</label>
-                <select className="win95-select">
+                <select>
                   <option>50</option>
                   <option selected>100</option>
                   <option>200</option>
@@ -192,9 +204,9 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
               </div>
             </div>
             
-            <div className="training-actions">
+            <div style={{ marginBottom: '16px' }}>
               <button 
-                className="win95-button primary-button" 
+                style={{ fontWeight: 'bold' }}
                 onClick={startTraining}
                 disabled={isTraining || capturedImages.length === 0}
               >
@@ -203,57 +215,62 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
             </div>
             
             {isTraining && (
-              <div className="training-progress-container">
+              <div style={{ marginBottom: '16px' }}>
                 <h4>訓練進度</h4>
-                <div className="win95-progress-bar">
+                <div className="sunken-panel" style={{ width: '100%', height: '24px', position: 'relative' }}>
                   <div 
-                    className="progress-bar-fill" 
-                    style={{ width: `${trainingProgress}%` }}
+                    style={{ 
+                      width: `${trainingProgress}%`, 
+                      height: '100%', 
+                      backgroundColor: '#000080',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0 
+                    }}
                   ></div>
                 </div>
-                <div className="progress-text">{Math.floor(trainingProgress)}%</div>
+                <div style={{ textAlign: 'center' }}>{Math.floor(trainingProgress)}%</div>
               </div>
             )}
             
             {trainingResult && (
-              <div className="training-results">
+              <div style={{ border: '1px solid #888', padding: '16px', backgroundColor: 'white' }}>
                 <h4>訓練結果</h4>
-                <div className="result-grid">
-                  <div className="result-item">
-                    <span className="result-label">準確率：</span>
-                    <span className="result-value">{trainingResult.accuracy}%</span>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '8px', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '12px' }}>準確率：</span>
+                    <span style={{ fontWeight: 'bold' }}>{trainingResult.accuracy}%</span>
                   </div>
-                  <div className="result-item">
-                    <span className="result-label">損失值：</span>
-                    <span className="result-value">{trainingResult.loss}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '12px' }}>損失值：</span>
+                    <span style={{ fontWeight: 'bold' }}>{trainingResult.loss}</span>
                   </div>
-                  <div className="result-item">
-                    <span className="result-label">精確度：</span>
-                    <span className="result-value">{trainingResult.precision}%</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '12px' }}>精確度：</span>
+                    <span style={{ fontWeight: 'bold' }}>{trainingResult.precision}%</span>
                   </div>
-                  <div className="result-item">
-                    <span className="result-label">召回率：</span>
-                    <span className="result-value">{trainingResult.recall}%</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '12px' }}>召回率：</span>
+                    <span style={{ fontWeight: 'bold' }}>{trainingResult.recall}%</span>
                   </div>
-                  <div className="result-item">
-                    <span className="result-label">訓練時間：</span>
-                    <span className="result-value">{trainingResult.timeElapsed}</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <span style={{ fontSize: '12px' }}>訓練時間：</span>
+                    <span style={{ fontWeight: 'bold' }}>{trainingResult.timeElapsed}</span>
                   </div>
                 </div>
                 
-                <div className="training-chart">
-                  {/* 在這裡我們可以實現一個簡單的模擬圖表或者使用一個靜態圖片 */}
-                  <div className="chart-placeholder">
-                    <div className="chart-line accuracy-line"></div>
-                    <div className="chart-line loss-line"></div>
-                    <div className="chart-legend">
-                      <div className="legend-item">
-                        <div className="legend-color accuracy-color"></div>
-                        <div className="legend-text">準確率</div>
+                <div style={{ height: '200px', position: 'relative', border: '1px solid #888', marginTop: '16px', backgroundColor: 'white' }}>
+                  <div className="chart-placeholder" style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <div style={{ position: 'absolute', top: '30%', left: 0, width: '100%', height: '2px', backgroundColor: '#00ff00' }}></div>
+                    <div style={{ position: 'absolute', top: '70%', left: 0, width: '100%', height: '2px', backgroundColor: '#ff0000' }}></div>
+                    <div style={{ position: 'absolute', bottom: '10px', right: '10px', display: 'flex', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ width: '16px', height: '8px', backgroundColor: '#00ff00' }}></div>
+                        <div style={{ fontSize: '12px' }}>準確率</div>
                       </div>
-                      <div className="legend-item">
-                        <div className="legend-color loss-color"></div>
-                        <div className="legend-text">損失值</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ width: '16px', height: '8px', backgroundColor: '#ff0000' }}></div>
+                        <div style={{ fontSize: '12px' }}>損失值</div>
                       </div>
                     </div>
                   </div>
@@ -264,47 +281,56 @@ function TrainingDemo({ capturedImages, onCaptureImage }) {
         );
         
       default:
-        return <div>未知選項卡</div>;
+        return <div className="window-body">未知選項卡</div>;
     }
   };
   
   return (
-    <div className="training-demo-container">
-      <div className="win95-tabs">
-        <div className="tab-buttons">
+    <div className="window" style={{ width: '100%', height: '100%' }}>
+      <div className="title-bar">
+        <div className="title-bar-text">機器視覺訓練</div>
+        <div className="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+      
+      <div className="window-body" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100% - 32px)', padding: 0 }}>
+        <menu role="tablist" style={{ marginBottom: '0' }}>
           <button 
-            className={`tab-button ${activeTab === 'images' ? 'active' : ''}`}
+            aria-selected={activeTab === 'images'} 
             onClick={() => setActiveTab('images')}
           >
             圖像庫
           </button>
           <button 
-            className={`tab-button ${activeTab === 'augment' ? 'active' : ''}`}
+            aria-selected={activeTab === 'augment'} 
             onClick={() => setActiveTab('augment')}
           >
             資料增強
           </button>
           <button 
-            className={`tab-button ${activeTab === 'train' ? 'active' : ''}`}
+            aria-selected={activeTab === 'train'} 
             onClick={() => setActiveTab('train')}
           >
             訓練模型
           </button>
-        </div>
+        </menu>
         
-        <div className="tab-content-container">
+        <div style={{ flex: 1, overflow: 'auto' }}>
           {renderTabContent()}
         </div>
       </div>
       
       <div className="status-bar">
-        <div className="status-item">
+        <div className="status-bar-field">
           模型: {modelOptions.find(m => m.id === selectedModel)?.name || '未選擇'}
         </div>
-        <div className="status-item">
+        <div className="status-bar-field">
           圖像: {capturedImages.length}
         </div>
-        <div className="status-item">
+        <div className="status-bar-field">
           增強: {augmentations.filter(a => a.enabled).length}/{augmentations.length}
         </div>
       </div>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Window from '../components/Win95UI/Window';
+// 移除 Window 的引入
 import CameraCapture from '../components/CameraCapture';
 import TrainingDemo from '../components/TrainingDemo';
-import './AppWindow.css';
+// 移除 './AppWindow.css' 的引入
 
 function AppWindow() {
   const { appId } = useParams();
@@ -45,8 +45,23 @@ function AppWindow() {
     localStorage.setItem('capturedImages', JSON.stringify(newCapturedImages));
   };
   
+  // 嘗試從localStorage加載已捕獲的圖像
+  useEffect(() => {
+    const storedImages = localStorage.getItem('capturedImages');
+    if (storedImages) {
+      try {
+        const parsedImages = JSON.parse(storedImages);
+        if (Array.isArray(parsedImages)) {
+          setCapturedImages(parsedImages);
+        }
+      } catch (error) {
+        console.error('無法解析存儲的圖像:', error);
+      }
+    }
+  }, []);
+  
   // 渲染應用內容
-  const renderAppContent = () => {
+  const renderApp = () => {
     switch (appId) {
       case 'vision-app':
         return (
@@ -63,39 +78,40 @@ function AppWindow() {
           />
         );
       default:
-        return <div className="app-not-found">找不到應用程序</div>;
+        return (
+          <div className="window" style={{ width: '100%', height: '100%' }}>
+            <div className="title-bar">
+              <div className="title-bar-text">錯誤</div>
+              <div className="title-bar-controls">
+                <button aria-label="Close" onClick={handleClose}></button>
+              </div>
+            </div>
+            <div className="window-body">
+              <p>找不到應用程序</p>
+              <button onClick={handleClose}>返回桌面</button>
+            </div>
+          </div>
+        );
     }
   };
-  
-  // 嘗試從localStorage加載已捕獲的圖像
-  useEffect(() => {
-    const storedImages = localStorage.getItem('capturedImages');
-    if (storedImages) {
-      try {
-        const parsedImages = JSON.parse(storedImages);
-        if (Array.isArray(parsedImages)) {
-          setCapturedImages(parsedImages);
-        }
-      } catch (error) {
-        console.error('無法解析存儲的圖像:', error);
-      }
-    }
-  }, []);
-  
+
   return (
-    <div className="app-window-container">
-      <Window
-        title={windowTitle}
-        isMaximized={isMaximized}
-        onClose={handleClose}
-        onMinimize={() => {}}
-        onMaximize={handleMaximize}
-        className={`app-window ${isMaximized ? 'maximized' : ''}`}
-      >
-        <div className="app-content">
-          {renderAppContent()}
-        </div>
-      </Window>
+    <div style={{ 
+      width: '100vw', 
+      height: '100vh', 
+      backgroundColor: '#008080',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      overflow: 'hidden'
+    }}>
+      <div style={{ 
+        width: isMaximized ? '100%' : '800px', 
+        height: isMaximized ? '100%' : '600px',
+        transition: 'width 0.2s, height 0.2s'
+      }}>
+        {renderApp()}
+      </div>
     </div>
   );
 }
