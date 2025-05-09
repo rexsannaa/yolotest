@@ -1,5 +1,5 @@
 import React from 'react';
-import './LoginScreen.css';
+// 刪除 import './LoginScreen.css'; 行
 
 function LoginScreen({ 
   username, 
@@ -11,30 +11,28 @@ function LoginScreen({
   onSubmit 
 }) {
   return (
-    <div className="login-screen">
-      <div className="login-form-container">
-        <div className="login-logo">
-          <div className="windows-logo">
-            <div className="logo-grid">
-              <div className="logo-square red"></div>
-              <div className="logo-square green"></div>
-              <div className="logo-square blue"></div>
-              <div className="logo-square yellow"></div>
-            </div>
-          </div>
-          <div className="login-title">
-            <h1>Windows 95</h1>
-            <h2>機器視覺訓練系統</h2>
-          </div>
+    <div className="window" style={{width: '400px', margin: '100px auto'}}>
+      <div className="title-bar">
+        <div className="title-bar-text">Windows 98 登入</div>
+        <div className="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+      
+      <div className="window-body">
+        <div style={{textAlign: 'center', marginBottom: '20px'}}>
+          <img src="/assets/win95-icons/computer.png" alt="Logo" style={{width: '64px', height: '64px'}} />
+          <h3>機器視覺訓練系統</h3>
         </div>
         
-        <form className="login-form" onSubmit={onSubmit}>
-          <div className="form-group">
+        <form onSubmit={onSubmit}>
+          <div className="field-row" style={{marginBottom: '10px'}}>
             <label htmlFor="username">使用者名稱：</label>
             <input
               type="text"
               id="username"
-              className="win95-input"
               value={username}
               onChange={onUsernameChange}
               autoComplete="username"
@@ -42,12 +40,11 @@ function LoginScreen({
             />
           </div>
           
-          <div className="form-group">
+          <div className="field-row" style={{marginBottom: '10px'}}>
             <label htmlFor="password">密碼：</label>
             <input
               type="password"
               id="password"
-              className="win95-input"
               value={password}
               onChange={onPasswordChange}
               autoComplete="current-password"
@@ -56,24 +53,27 @@ function LoginScreen({
             />
           </div>
           
-          {error && <div className="error-message">{error}</div>}
+          {error && <div className="status-bar-field" style={{color: 'red'}}>{error}</div>}
           
-          <div className="form-footer">
-            <div className="login-info">
-              <p className="login-instruction">
-                請輸入使用者名稱以登入系統<br />
-                （這是演示系統，任何使用者名稱都可以登入）
-              </p>
-            </div>
+          <div style={{marginTop: '20px', textAlign: 'center'}}>
+            <p className="status-bar-field">
+              請輸入使用者名稱以登入系統
+              <br />
+              （這是演示系統，任何使用者名稱都可以登入）
+            </p>
+          </div>
+          
+          <div className="field-row" style={{justifyContent: 'center', marginTop: '20px'}}>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? '登入中...' : '登入'}
+            </button>
           </div>
         </form>
       </div>
       
-      <div className="login-screen-footer">
-        <div className="system-info">
-          <p>演示版本 1.0</p>
-          <p>© 2025 Windows 95 風格機器視覺訓練系統</p>
-        </div>
+      <div className="status-bar">
+        <div className="status-bar-field">演示版本 1.0</div>
+        <div className="status-bar-field">© 2025 Windows 98 風格機器視覺訓練系統</div>
       </div>
     </div>
   );

@@ -1,68 +1,82 @@
-import React, { useState } from 'react';
-import LoginScreen from '../components/LoginScreen';
-import './Login.css';
+import React from 'react';
+// 刪除 import './LoginScreen.css'; 行
 
-function Login({ onLogin }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (!username.trim()) {
-      setError('請輸入使用者名稱');
-      return;
-    }
-    
-    // 模擬登入過程
-    setIsLoading(true);
-    setError('');
-    
-    // 簡單延遲模擬登入過程
-    setTimeout(() => {
-      setIsLoading(false);
-      // 因為這是演示，所以不做實際驗證
-      onLogin(username);
-    }, 1000);
-  };
-  
-  const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  
+function LoginScreen({ 
+  username, 
+  password, 
+  error, 
+  isLoading, 
+  onUsernameChange, 
+  onPasswordChange, 
+  onSubmit 
+}) {
   return (
-    <div className="login-container">
-      <div className="win95-login-screen">
-        <div className="win95-login-header">
-          <div className="win95-logo">Windows 95</div>
-          <div className="win95-time">{currentTime}</div>
+    <div className="window" style={{width: '400px', margin: '100px auto'}}>
+      <div className="title-bar">
+        <div className="title-bar-text">Windows 98 登入</div>
+        <div className="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close"></button>
+        </div>
+      </div>
+      
+      <div className="window-body">
+        <div style={{textAlign: 'center', marginBottom: '20px'}}>
+          <img src="/assets/win95-icons/computer.png" alt="Logo" style={{width: '64px', height: '64px'}} />
+          <h3>機器視覺訓練系統</h3>
         </div>
         
-        <LoginScreen 
-          username={username}
-          password={password}
-          error={error}
-          isLoading={isLoading}
-          onUsernameChange={(e) => setUsername(e.target.value)}
-          onPasswordChange={(e) => setPassword(e.target.value)}
-          onSubmit={handleSubmit}
-        />
-        
-        <div className="win95-login-footer">
-          <div className="win95-login-buttons">
-            <button 
-              className="win95-button" 
-              onClick={handleSubmit}
+        <form onSubmit={onSubmit}>
+          <div className="field-row" style={{marginBottom: '10px'}}>
+            <label htmlFor="username">使用者名稱：</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={onUsernameChange}
+              autoComplete="username"
               disabled={isLoading}
-            >
+            />
+          </div>
+          
+          <div className="field-row" style={{marginBottom: '10px'}}>
+            <label htmlFor="password">密碼：</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={onPasswordChange}
+              autoComplete="current-password"
+              disabled={isLoading}
+              placeholder="（任意密碼都可以）"
+            />
+          </div>
+          
+          {error && <div className="status-bar-field" style={{color: 'red'}}>{error}</div>}
+          
+          <div style={{marginTop: '20px', textAlign: 'center'}}>
+            <p className="status-bar-field">
+              請輸入使用者名稱以登入系統
+              <br />
+              （這是演示系統，任何使用者名稱都可以登入）
+            </p>
+          </div>
+          
+          <div className="field-row" style={{justifyContent: 'center', marginTop: '20px'}}>
+            <button type="submit" disabled={isLoading}>
               {isLoading ? '登入中...' : '登入'}
             </button>
-            <button className="win95-button">關閉</button>
           </div>
-        </div>
+        </form>
+      </div>
+      
+      <div className="status-bar">
+        <div className="status-bar-field">演示版本 1.0</div>
+        <div className="status-bar-field">© 2025 Windows 98 風格機器視覺訓練系統</div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default LoginScreen;
