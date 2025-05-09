@@ -1,0 +1,14 @@
+你的資料庫裡面都有很重要的程式
+
+所以你要寫完任何程式之後
+
+都把它記憶到你的記憶裡面
+
+以每個確認依賴的建立
+
+然後我沒有windos95 的任何包
+
+所以都需要自己寫
+
+中文字體包
+/home/a/a1/OTF/TraditionalChinese/NotoSerifCJKtc-Black.otf
