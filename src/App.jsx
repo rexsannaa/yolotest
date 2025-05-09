@@ -247,7 +247,7 @@ const windows = [
   ];
   
   return (
-    <>
+    <React.Fragment>
       {!isLoggedIn ? (
         <LoginScreen onLogin={handleLogin} />
       ) : (
@@ -260,5 +260,8 @@ const windows = [
           activeWindowId={activeWindowId}
         />
       )}
-    </>
-  );
+    </React.Fragment>
+  ); // ✅ 這行是報錯的根源，現在已正確對應
+};
+
+export default App;
