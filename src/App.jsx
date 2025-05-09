@@ -61,14 +61,14 @@ const App = () => {
   const [activeWindows, setActiveWindows] = useState([]);
   const [activeWindowId, setActiveWindowId] = useState(null);
 
-  // 檢查是否已經登入
-  useEffect(() => {
-    const savedUsername = localStorage.getItem('win98_username');
-    if (savedUsername) {
-      setUsername(savedUsername);
-      setIsLoggedIn(true);
-    }
-  }, []);
+    // 檢查是否已經登入
+    useEffect(() => {
+        const savedUsername = localStorage.getItem('win98_username');
+        if (savedUsername) {
+        setUsername(savedUsername);
+        setIsLoggedIn(true);
+        }
+    }, []);
 
   // 處理登入
   const handleLogin = (user) => {
@@ -243,9 +243,8 @@ const windows = [
       minimizable: true,
       maximizable: true
     }
-  ]; // 需要在這裡閉合 windows 數組
+  ];
   
-  // 渲染應用
   return (
     <>
       {!isLoggedIn ? (
@@ -262,22 +261,4 @@ const windows = [
       )}
     </>
   );
-  return (
-    <>
-      {!isLoggedIn ? (
-        <LoginScreen onLogin={handleLogin} />
-      ) : (
-        <Desktop
-          username={username}
-          icons={desktopIcons}
-          windows={windows}
-          onIconClick={handleIconClick}
-          activeWindows={activeWindows}
-          activeWindowId={activeWindowId}
-        />
-      )}
-    </>
-  );
-};
-
 export default App;
