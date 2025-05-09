@@ -1,0 +1,85 @@
+/* Windows 98 Button Styles */
+.win98-button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
+    font-size: 11px;
+    color: #000;
+    background-color: #c0c0c0;
+    border: none;
+    border-radius: 0;
+    box-shadow: 
+      inset -1px -1px 0 0 #000,
+      inset 1px 1px 0 0 #fff,
+      inset -2px -2px 0 0 #808080,
+      inset 2px 2px 0 0 #dfdfdf;
+    padding: 4px 12px;
+    min-width: 75px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+  
+  /* Button sizes */
+  .win98-button--small {
+    font-size: 10px;
+    padding: 2px 8px;
+    min-width: 60px;
+  }
+  
+  .win98-button--medium {
+    font-size: 11px;
+    padding: 4px 12px;
+    min-width: 75px;
+  }
+  
+  .win98-button--large {
+    font-size: 12px;
+    padding: 6px 16px;
+    min-width: 90px;
+  }
+  
+  /* Active (pressed) state */
+  .win98-button--active,
+  .win98-button:active:not(:disabled) {
+    box-shadow: 
+      inset -1px -1px 0 0 #fff,
+      inset 1px 1px 0 0 #000,
+      inset -2px -2px 0 0 #dfdfdf,
+      inset 2px 2px 0 0 #808080;
+    padding-top: 5px;
+    padding-left: 13px;
+    padding-bottom: 3px;
+    padding-right: 11px;
+  }
+  
+  /* Disabled state */
+  .win98-button:disabled {
+    color: #808080;
+    text-shadow: 1px 1px 0 #fff;
+    cursor: default;
+  }
+  
+  /* Focus state */
+  .win98-button:focus {
+    outline: 1px dotted #000;
+    outline-offset: -4px;
+  }
+  
+  /* Button with icon */
+  .win98-button-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .win98-button-icon img,
+  .win98-button-icon svg {
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+  }
