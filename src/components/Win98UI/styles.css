@@ -83,3 +83,106 @@
     width: 16px;
     height: 16px;
   }
+/* Windows 98 Icon Styles */
+.win98-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 64px;
+    margin: 8px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  
+  /* Icon sizes */
+  .win98-icon--small {
+    width: 48px;
+  }
+  
+  .win98-icon--medium {
+    width: 64px;
+  }
+  
+  .win98-icon--large {
+    width: 80px;
+  }
+  
+  .win98-icon-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+  
+  .win98-icon--small .win98-icon-image {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .win98-icon--large .win98-icon-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .win98-icon-image img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+  
+  .win98-icon-image-custom {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .win98-icon-label {
+    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    color: #000;
+    background-color: transparent;
+    padding: 1px 2px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+  
+  /* Selected state */
+  .win98-icon--selected .win98-icon-label {
+    background-color: #000080;
+    color: #fff;
+  }
+  
+  /* Hover effect */
+  .win98-icon:hover .win98-icon-label:not(.win98-icon--selected .win98-icon-label) {
+    background-color: rgba(0, 0, 128, 0.1);
+  }
+  
+  /* Focus outline */
+  .win98-icon:focus {
+    outline: 1px dotted #000;
+    outline-offset: -1px;
+  }
+  
+  /* Default icon types - 可以根據需要添加更多 */
+  .win98-icon-image-custom.my-computer {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAA50lEQVRYhe2XMQ6CQBBFH4nxAjZW1t7BA1BzCUJFvIeddlzA2kbP4Dk8gbGw1BvYaIyFszGEsOwOOzKNf/KTTWYm+TsJOxCZgBOwBkbA2MEfA1fgApSh4hugEusMXO4UoAQKj/gtUNjYNgZA7inQtAIYJwqgsh5SEwdQNwEkCaD+FkBNLZACW+ABlMZ77RseA8u6eQQUHT7+UPl+KOdLLwF7A89eAQbGnoVH/lLlqldACqTAXwWoAh0+TkwV+ZiHqKP9juOGDzl1A2wA3+VTN5KA9QNeRXp/ynP1BbA8RO5A9u2C4nkCFPs11UT30oYAAAAASUVORK5CYII=');
+  }
+  
+  .win98-icon-image-custom.my-documents {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAA+ElEQVRYhe3WMUpDQRSF4U8JWNhYiKW1a3AJWoj7ELIBXYSltYVrsBHBJWTnBmzs3ICClaQRYuE1ERLmvXkzcYr5YeBxLzPnMHd4MOzjAR94wRkGhfwBrnCPl/BecB2aXpzhKTTeVNY1Zj2bP4bv1Ta/tAecFDbvwl3YexPO93LqNtg8ov4Fhr8pXvLQQdSHC3zZ7YfrDnWXRvNK9RPaWFb82GJX8WmLeY3hc4t5jeFjizkoNPsX/geYpwNk6QC/7R6YFBqNQ/a7J9wm602YV/3w0ULbxKJC18XuAL0OsKj79b3HJqKvMcs+RArJhkhh5iFSoDlEXgNyA91Md3UGzgAAAABJRU5ErkJggg==');
+  }
+  
+  .win98-icon-image-custom.recycle-bin {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAB9UlEQVRYhe2WwUsbQRTGf29nN4kmGqS01lRPvXgpFISCeKwU/4ZS0IO9K3jqoVAQevLWv6AXD70VQayClB56EaRUkNJgY9Ikm93XS5rIps1md5Oc8oPHzLyZ+b5v3rzhQZUqpkkBz4Bt4ABYBU4DHAaeBdiKQhJ4DeSBn8B34BZYBZ4DDeBHqfgLsAYsAAZoAp+AW3XgAfANyI2x/TnwqQy5Cd4AC+OKL03AaRTHOeBgkpM/c2wBraadPwZy7lwqzgF2Qs5n1I2NiJN/dsfvAi+BD4Blzpfde54D2iK81l5+JUIvOZCz4AwKNWDbtJyAVRVnrYiTHnDmbq4YtgPY7gRXAw26wOU4AdsuWVuxAuSUwx8wvwKuhwXcAR+BGvAP+DVNBzTQL5fB/+sOqADTIuoKqPRBBZgWlXZABZgW88DXsC/g2J1LxTHgwLSjAsNM6YNKSzYrYtLGS8XpA11gM2TBOtCbVJwDDqOKc8AV8C7EYRvYi+J8BbQmEGeA/ThvwSZw7G4wjr2YzgG2XfEzI+YJ8DGO+DPTZ0AbeOx7lo/oPK74U+A1YCvga4TzOOJHwMtxxQcRn4vhPKp4E9gcJH4gMUXgYAznYcRbwD7QMG6EHKFbMAM8Au4Cd9z5CnAOFNx2DFzEyKdKlalyDSJT4OqhXTQkAAAAAElFTkSuQmCC');
+  }
+  
+  /* 可以添加更多預定義圖標 */
