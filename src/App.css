@@ -1,0 +1,542 @@
+/* App-wide styles */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #008080;
+  }
+  
+  .win98-app {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* Desktop styles */
+  .desktop {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 28px);
+    background-color: #008080;
+    overflow: hidden;
+  }
+  
+  .desktop-icons {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 4px;
+    height: 100%;
+  }
+  
+  /* Icon styles */
+  .desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+    margin: 8px;
+    cursor: pointer;
+  }
+  
+  .desktop-icon img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+  
+  .icon-label {
+    text-align: center;
+    color: white;
+    font-size: 11px;
+    background-color: transparent;
+    padding: 1px;
+    max-width: 64px;
+    word-break: break-word;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  }
+  
+  .desktop-icon:hover .icon-label {
+    background-color: #000080;
+  }
+  
+  /* Taskbar styles */
+  .taskbar {
+    height: 28px;
+    background-color: #c0c0c0;
+    border-top: 1px solid #dfdfdf;
+    display: flex;
+    align-items: center;
+    padding: 0 2px;
+    position: relative;
+    z-index: 1000;
+  }
+  
+  .start-button {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 4px;
+    margin-right: 4px;
+    font-weight: bold;
+  }
+  
+  .start-logo {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    background-image: url('/icons/start-logo.png');
+    background-size: cover;
+  }
+  
+  .taskbar-buttons {
+    display: flex;
+    flex: 1;
+    height: 22px;
+    overflow-x: auto;
+    margin: 0 4px;
+  }
+  
+  .taskbar-button {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+    max-width: 200px;
+    height: 22px;
+    margin-right: 2px;
+    padding: 0 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .taskbar-button img {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+  
+  .taskbar-button--active {
+    font-weight: bold;
+  }
+  
+  .system-tray {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-left: 1px solid #808080;
+  }
+  
+  /* Start menu */
+  .start-menu {
+    position: absolute;
+    bottom: 28px;
+    left: 0;
+    width: 200px;
+    background-color: #c0c0c0;
+    border: 2px solid #dfdfdf;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+  }
+  
+  .start-menu-header {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: linear-gradient(to right, #000080, #1084d0);
+    color: white;
+    font-weight: bold;
+    height: 30px;
+  }
+  
+  .start-menu-windows-logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    background-image: url('/icons/start-logo.png');
+    background-size: cover;
+  }
+  
+  .start-menu-items {
+    padding: 2px;
+  }
+  
+  .start-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  
+  .start-menu-item:hover {
+    background-color: #000080;
+    color: white;
+  }
+  
+  .start-menu-item-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    background-size: cover;
+  }
+  
+  .start-menu-separator {
+    height: 1px;
+    background-color: #808080;
+    margin: 4px 0;
+  }
+  
+  /* Window content styles */
+  .window-content {
+    padding: 12px;
+    overflow: auto;
+    height: 100%;
+  }
+  
+  /* Login screen styles */
+  .login-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #008080;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-container {
+    background-color: #c0c0c0;
+    border: 2px solid #dfdfdf;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 16px;
+    width: 400px;
+  }
+  
+  .login-header {
+    margin-bottom: 16px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .login-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .login-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  
+  /* Boot screen */
+  .boot-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .boot-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  .boot-logo {
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .boot-progress {
+    width: 300px;
+    height: 20px;
+    background-color: #000;
+    border: 2px solid #fff;
+    overflow: hidden;
+  }
+  
+  .boot-progress-fill {
+    height: 100%;
+    background-color: #fff;
+    transition: width 0.2s ease-out;
+  }
+  
+  /* Training demo specific styles */
+  .training-demo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .training-content {
+    display: flex;
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .training-sidebar {
+    width: 150px;
+    height: 100%;
+    background-color: #c0c0c0;
+    border-right: 1px solid #808080;
+    padding: 8px;
+  }
+  
+  .training-sidebar-title {
+    font-weight: bold;
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #808080;
+  }
+  
+  .training-sidebar-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .training-sidebar-stage {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .training-sidebar-stage-bullet {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #808080;
+    border: 1px solid #000;
+  }
+  
+  .training-sidebar-stage--active .training-sidebar-stage-bullet {
+    background-color: #000080;
+  }
+  
+  .training-sidebar-stage--active .training-sidebar-stage-name {
+    font-weight: bold;
+    color: #000080;
+  }
+  
+  .training-main {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  
+  /* Training stages */
+  .training-intro h3,
+  .training-capture h3,
+  .training-preprocess h3,
+  .training-augment h3,
+  .training-train h3,
+  .training-complete h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  
+  .training-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .training-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .training-thumbnail {
+    width: 120px;
+    height: 90px;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #fff;
+  }
+  
+  .training-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    margin: 16px 0;
+  }
+  
+  .progress-text {
+    text-align: center;
+    margin-top: 4px;
+    font-weight: bold;
+  }
+  
+  .training-augment-display {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  
+  .training-augment-original,
+  .training-augment-result {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .training-augment-image,
+  .training-augment-canvas {
+    width: 300px;
+    height: 225px;
+    border: 1px solid #000;
+    background-color: #fff;
+    object-fit: contain;
+  }
+  
+  .training-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+    border: 1px solid #808080;
+    padding: 8px;
+    background-color: #f0f0f0;
+  }
+  
+  .training-stat {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .training-log {
+    margin-top: 16px;
+    border: 1px solid #808080;
+    height: 150px;
+    overflow-y: auto;
+    background-color: #000;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .training-log-title {
+    background-color: #c0c0c0;
+    color: #000;
+    padding: 4px;
+    font-weight: bold;
+    border-bottom: 1px solid #808080;
+  }
+  
+  .training-log-content {
+    padding: 4px;
+    font-size: 11px;
+  }
+  
+  .training-complete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .training-complete-icon {
+    width: 64px;
+    height: 64px;
+    background-color: #00aa00;
+    border-radius: 50%;
+    margin: 16px 0;
+    position: relative;
+  }
+  
+  .training-results {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+    border: 1px solid #808080;
+    padding: 16px;
+    width: 80%;
+    background-color: #f0f0f0;
+  }
+  
+  .training-result {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  
+  /* Camera component */
+  .camera-capture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .camera-container {
+    background-color: #000;
+    border: 2px solid #c0c0c0;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .camera-controls {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .camera-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Helper classes */
+  .mt-4 {
+    margin-top: 16px;
+  }
+  
+  .my-4 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Custom help styles */
+  .help-section {
+    margin-bottom: 16px;
+  }
+  
+  .help-section h4 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }

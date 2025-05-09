@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Button from './Win98UI/Button';
 import CameraCapture from './CameraCapture';
-import './Win98UI/styles.css';
 
 /**
- * Windows 98 風格機器視覺訓練模擬元件
+ * Machine Vision Training Demo Component
  * 
- * @param {Object} props - 元件屬性
- * @param {Function} props.onClose - 關閉元件時的回調函數
+ * @param {Object} props - Component props
+ * @param {Function} props.onClose - Close callback function
  */
 const TrainingDemo = ({ onClose }) => {
-  // 狀態管理
+  // State management
   const [stage, setStage] = useState('intro'); // intro, capture, preprocess, augment, train, complete
   const [capturedImages, setCapturedImages] = useState([]);
   const [showCamera, setShowCamera] = useState(false);
@@ -21,7 +19,7 @@ const TrainingDemo = ({ onClose }) => {
   const trainIntervalRef = useRef(null);
   const augmentationTimeoutRef = useRef(null);
   
-  // 模擬的增強類型
+  // Simulated augmentation types
   const augmentationTypes = [
     { name: '原始圖像', function: (ctx, canvas) => {} },
     { name: '水平翻轉', function: (ctx, canvas) => {
@@ -31,7 +29,7 @@ const TrainingDemo = ({ onClose }) => {
     }},
     { name: '旋轉', function: (ctx, canvas) => {
       ctx.translate(canvas.width/2, canvas.height/2);
-      ctx.rotate(Math.PI/6); // 30度
+      ctx.rotate(Math.PI/6); // 30 degrees
       ctx.translate(-canvas.width/2, -canvas.height/2);
       ctx.drawImage(new Image(), 0, 0, canvas.width, canvas.height);
     }},
@@ -52,7 +50,7 @@ const TrainingDemo = ({ onClose }) => {
     }}
   ];
 
-  // 清理函數，防止記憶體洩漏
+  // Cleanup function to prevent memory leaks
   useEffect(() => {
     return () => {
       if (trainIntervalRef.current) {
@@ -64,39 +62,39 @@ const TrainingDemo = ({ onClose }) => {
     };
   }, []);
 
-  // 處理照片拍攝
+  // Handle photo capture
   const handleCapture = (imageData) => {
     setCapturedImages([...capturedImages, imageData]);
     setShowCamera(false);
     
-    // 如果已拍攝至少3張照片，自動進入預處理階段
+    // If at least 3 photos are taken, automatically proceed to preprocessing
     if (capturedImages.length >= 2) {
       setStage('preprocess');
     }
   };
 
-  // 處理相機取消
+  // Handle camera cancel
   const handleCameraCancel = () => {
     setShowCamera(false);
   };
 
-  // 開始拍照
+  // Start capture
   const startCapture = () => {
     setShowCamera(true);
   };
 
-  // 開始預處理
+  // Start preprocessing
   const startPreprocessing = () => {
     setStage('preprocess');
     
-    // 模擬短暫的預處理過程
+    // Simulate brief preprocessing
     setTimeout(() => {
       setStage('augment');
       simulateAugmentation();
     }, 2000);
   };
 
-  // 模擬資料增強過程
+  // Simulate data augmentation process
   const simulateAugmentation = () => {
     let currentIndex = 0;
     
@@ -105,10 +103,10 @@ const TrainingDemo = ({ onClose }) => {
         setCurrentAugmentation(augmentationTypes[currentIndex]);
         currentIndex++;
         
-        // 定時顯示下一個增強效果
+        // Schedule next augmentation display
         augmentationTimeoutRef.current = setTimeout(showNextAugmentation, 1500);
       } else {
-        // 增強展示完成後，進入訓練階段
+        // After augmentation demo, proceed to training
         setStage('train');
         startTraining();
       }
@@ -117,21 +115,21 @@ const TrainingDemo = ({ onClose }) => {
     showNextAugmentation();
   };
 
-  // 開始訓練
+  // Start training
   const startTraining = () => {
     setTrainProgress(0);
     
-    // 模擬逐漸增加的訓練進度
+    // Simulate gradually increasing training progress
     trainIntervalRef.current = setInterval(() => {
       setTrainProgress(prev => {
-        const increment = Math.random() * 5; // 隨機增量
+        const increment = Math.random() * 5; // Random increment
         const newProgress = prev + increment;
         
         if (newProgress >= 100) {
           clearInterval(trainIntervalRef.current);
           setTrainProgress(100);
           
-          // 延遲一下，顯示100%完成
+          // Slight delay to show 100% completion
           setTimeout(() => {
             setStage('complete');
           }, 500);
@@ -144,7 +142,7 @@ const TrainingDemo = ({ onClose }) => {
     }, 300);
   };
 
-  // 重新開始整個流程
+  // Restart the entire process
   const restart = () => {
     setCapturedImages([]);
     setStage('intro');
@@ -159,12 +157,12 @@ const TrainingDemo = ({ onClose }) => {
     }
   };
 
-  // 渲染不同階段的內容
+  // Render different stage content
   const renderStageContent = () => {
     switch (stage) {
       case 'intro':
         return (
-          <div className="win98-training-intro">
+          <div className="training-intro">
             <h3>歡迎使用機器視覺訓練模擬系統</h3>
             <p>本系統將引導您完成一個簡化的機器視覺模型訓練流程模擬：</p>
             <ol>
@@ -174,32 +172,32 @@ const TrainingDemo = ({ onClose }) => {
               <li>觀看模擬訓練進程</li>
             </ol>
             <p>請開始拍攝至少3張樣本圖像。</p>
-            <div className="win98-training-actions">
-              <Button onClick={startCapture}>開始拍攝</Button>
+            <div className="training-actions">
+              <button onClick={startCapture}>開始拍攝</button>
             </div>
           </div>
         );
         
       case 'capture':
         return (
-          <div className="win98-training-capture">
+          <div className="training-capture">
             <h3>樣本圖像收集</h3>
             <p>已拍攝: {capturedImages.length} 張圖像</p>
             
             {capturedImages.length > 0 && (
-              <div className="win98-training-thumbnails">
+              <div className="training-thumbnails">
                 {capturedImages.map((img, index) => (
-                  <div key={index} className="win98-training-thumbnail">
+                  <div key={index} className="training-thumbnail">
                     <img src={img} alt={`樣本 ${index + 1}`} />
                   </div>
                 ))}
               </div>
             )}
             
-            <div className="win98-training-actions">
-              <Button onClick={startCapture}>拍攝更多</Button>
+            <div className="training-actions">
+              <button onClick={startCapture}>拍攝更多</button>
               {capturedImages.length >= 1 && (
-                <Button onClick={startPreprocessing}>繼續</Button>
+                <button onClick={startPreprocessing}>繼續</button>
               )}
             </div>
           </div>
@@ -207,12 +205,10 @@ const TrainingDemo = ({ onClose }) => {
         
       case 'preprocess':
         return (
-          <div className="win98-training-preprocess">
+          <div className="training-preprocess">
             <h3>圖像預處理中...</h3>
-            <div className="win98-progress">
-              <div className="win98-progress-bar">
-                <div className="win98-progress-bar-fill" style={{ width: '100%' }}></div>
-              </div>
+            <div className="progress">
+              <div className="progress-bar" style={{ width: '100%' }}></div>
             </div>
             <p>正在進行圖像標準化處理，請稍候...</p>
           </div>
@@ -220,29 +216,29 @@ const TrainingDemo = ({ onClose }) => {
         
       case 'augment':
         return (
-          <div className="win98-training-augment">
+          <div className="training-augment">
             <h3>資料增強展示</h3>
             <p>資料增強可以創建多樣的訓練樣本，提升模型性能</p>
             
-            <div className="win98-training-augment-display">
-              <div className="win98-training-augment-original">
+            <div className="training-augment-display">
+              <div className="training-augment-original">
                 <h4>原始圖像</h4>
                 {capturedImages.length > 0 && (
                   <img 
                     src={capturedImages[0]} 
                     alt="原始圖像" 
-                    className="win98-training-augment-image"
+                    className="training-augment-image"
                   />
                 )}
               </div>
               
-              <div className="win98-training-augment-result">
+              <div className="training-augment-result">
                 <h4>增強效果: {currentAugmentation?.name || '準備中...'}</h4>
                 <canvas 
                   ref={augmentationCanvasRef}
                   width="300"
                   height="225"
-                  className="win98-training-augment-canvas"
+                  className="training-augment-canvas"
                 />
               </div>
             </div>
@@ -251,38 +247,36 @@ const TrainingDemo = ({ onClose }) => {
         
       case 'train':
         return (
-          <div className="win98-training-train">
+          <div className="training-train">
             <h3>模型訓練進度</h3>
-            <div className="win98-progress">
-              <div className="win98-progress-bar">
-                <div 
-                  className="win98-progress-bar-fill" 
-                  style={{ width: `${trainProgress}%` }}
-                ></div>
-              </div>
-              <div className="win98-progress-text">
-                {Math.floor(trainProgress)}%
-              </div>
+            <div className="progress">
+              <div 
+                className="progress-bar" 
+                style={{ width: `${trainProgress}%` }}
+              ></div>
+            </div>
+            <div className="progress-text">
+              {Math.floor(trainProgress)}%
             </div>
             
-            <div className="win98-training-stats">
-              <div className="win98-training-stat">
+            <div className="training-stats">
+              <div className="training-stat">
                 <span>迭代次數:</span>
                 <span>{Math.floor(trainProgress / 10)}</span>
               </div>
-              <div className="win98-training-stat">
+              <div className="training-stat">
                 <span>損失值:</span>
                 <span>{(1 - (trainProgress / 100) * 0.8).toFixed(4)}</span>
               </div>
-              <div className="win98-training-stat">
+              <div className="training-stat">
                 <span>準確率:</span>
                 <span>{((trainProgress / 100) * 85 + 10).toFixed(2)}%</span>
               </div>
             </div>
             
-            <div className="win98-training-log">
-              <div className="win98-training-log-title">訓練日誌:</div>
-              <div className="win98-training-log-content">
+            <div className="training-log">
+              <div className="training-log-title">訓練日誌:</div>
+              <div className="training-log-content">
                 {trainProgress >= 10 && <div>[INFO] 批次 1/10 完成 - 損失: 0.8952 - 準確率: 35.24%</div>}
                 {trainProgress >= 20 && <div>[INFO] 批次 2/10 完成 - 損失: 0.7621 - 準確率: 42.18%</div>}
                 {trainProgress >= 30 && <div>[INFO] 批次 3/10 完成 - 損失: 0.6543 - 準確率: 51.32%</div>}
@@ -301,29 +295,29 @@ const TrainingDemo = ({ onClose }) => {
         
       case 'complete':
         return (
-          <div className="win98-training-complete">
+          <div className="training-complete">
             <h3>恭喜！模型訓練完成</h3>
-            <div className="win98-training-complete-icon"></div>
+            <div className="training-complete-icon"></div>
             <p>您的機器視覺模型已成功訓練完成，最終模型效能：</p>
             
-            <div className="win98-training-results">
-              <div className="win98-training-result">
+            <div className="training-results">
+              <div className="training-result">
                 <span>準確率:</span>
                 <span>91.32%</span>
               </div>
-              <div className="win98-training-result">
+              <div className="training-result">
                 <span>損失值:</span>
                 <span>0.2011</span>
               </div>
-              <div className="win98-training-result">
+              <div className="training-result">
                 <span>F1分數:</span>
                 <span>0.8956</span>
               </div>
             </div>
             
-            <div className="win98-training-actions">
-              <Button onClick={restart}>重新開始</Button>
-              <Button onClick={onClose}>關閉</Button>
+            <div className="training-actions">
+              <button onClick={restart}>重新開始</button>
+              <button onClick={onClose}>關閉</button>
             </div>
           </div>
         );
@@ -333,7 +327,7 @@ const TrainingDemo = ({ onClose }) => {
     }
   };
 
-  // 側邊欄顯示當前階段
+  // Sidebar to show current stage
   const renderSidebar = () => {
     const stages = [
       { id: 'intro', name: '介紹' },
@@ -345,16 +339,16 @@ const TrainingDemo = ({ onClose }) => {
     ];
     
     return (
-      <div className="win98-training-sidebar">
-        <div className="win98-training-sidebar-title">訓練階段</div>
-        <div className="win98-training-sidebar-stages">
+      <div className="training-sidebar">
+        <div className="training-sidebar-title">訓練階段</div>
+        <div className="training-sidebar-stages">
           {stages.map((s) => (
             <div 
               key={s.id}
-              className={`win98-training-sidebar-stage ${stage === s.id ? 'win98-training-sidebar-stage--active' : ''}`}
+              className={`training-sidebar-stage ${stage === s.id ? 'training-sidebar-stage--active' : ''}`}
             >
-              <div className="win98-training-sidebar-stage-bullet"></div>
-              <div className="win98-training-sidebar-stage-name">{s.name}</div>
+              <div className="training-sidebar-stage-bullet"></div>
+              <div className="training-sidebar-stage-name">{s.name}</div>
             </div>
           ))}
         </div>
@@ -362,14 +356,14 @@ const TrainingDemo = ({ onClose }) => {
     );
   };
 
-  // 當拍攝照片時，更新階段
+  // When taking photos, update stage
   useEffect(() => {
     if (capturedImages.length > 0 && stage === 'intro') {
       setStage('capture');
     }
   }, [capturedImages, stage]);
 
-  // 當資料增強階段變更時，更新增強效果顯示
+  // When augmentation stage changes, update augmentation effect display
   useEffect(() => {
     if (stage === 'augment' && currentAugmentation && capturedImages.length > 0) {
       const canvas = augmentationCanvasRef.current;
@@ -379,19 +373,19 @@ const TrainingDemo = ({ onClose }) => {
         
         const img = new Image();
         img.onload = () => {
-          // 重置變換
+          // Reset transformations
           ctx.setTransform(1, 0, 0, 1, 0, 0);
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           
-          // 先繪製原始圖像
+          // Draw original image first
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           
-          // 應用增強效果
+          // Apply augmentation effect
           ctx.save();
           ctx.setTransform(1, 0, 0, 1, 0, 0);
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           
-          // 特定增強效果實現
+          // Specific augmentation effect implementation
           if (currentAugmentation.name === '水平翻轉') {
             ctx.translate(canvas.width, 0);
             ctx.scale(-1, 1);
@@ -416,23 +410,22 @@ const TrainingDemo = ({ onClose }) => {
   }, [currentAugmentation, capturedImages, stage]);
 
   return (
-    <div className="win98-training-demo">
-      {/* 主內容區域 */}
-      <div className="win98-training-content">
-        {/* 側邊欄 */}
+    <div className="training-demo">
+      {/* Main content area */}
+      <div className="training-content">
+        {/* Sidebar */}
         {renderSidebar()}
         
-        {/* 主要區域 */}
-        <div className="win98-training-main">
+        {/* Main area */}
+        <div className="training-main">
           {renderStageContent()}
         </div>
       </div>
       
-      {/* 相機元件 */}
+      {/* Camera component */}
       {showCamera && (
-        <div className="win98-training-camera-overlay">
-          <div className="win98-training-camera-container">
-            <h3>拍攝樣本圖像</h3>
+        <div className="camera-overlay">
+          <div className="camera-container-wrapper">
             <CameraCapture
               onCapture={handleCapture}
               onCancel={handleCameraCancel}
@@ -445,335 +438,3 @@ const TrainingDemo = ({ onClose }) => {
     </div>
   );
 };
-
-// 添加 CSS 樣式
-const styles = `
-  /* 基本佈局 */
-  .win98-training-demo {
-    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
-    font-size: 12px;
-    color: #000;
-    background-color: #c0c0c0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-  
-  .win98-training-content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  /* 側邊欄樣式 */
-  .win98-training-sidebar {
-    width: 150px;
-    height: 100%;
-    background-color: #c0c0c0;
-    border-right: 1px solid #808080;
-    display: flex;
-    flex-direction: column;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  .win98-training-sidebar-title {
-    font-weight: bold;
-    margin-bottom: 12px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #808080;
-  }
-  
-  .win98-training-sidebar-stages {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .win98-training-sidebar-stage {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .win98-training-sidebar-stage-bullet {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #808080;
-    border: 1px solid #000;
-  }
-  
-  .win98-training-sidebar-stage--active .win98-training-sidebar-stage-bullet {
-    background-color: #000080;
-  }
-  
-  .win98-training-sidebar-stage--active .win98-training-sidebar-stage-name {
-    font-weight: bold;
-    color: #000080;
-  }
-  
-  /* 主要內容區域 */
-  .win98-training-main {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-  }
-  
-  /* 介紹頁面 */
-  .win98-training-intro h3,
-  .win98-training-capture h3,
-  .win98-training-preprocess h3,
-  .win98-training-augment h3,
-  .win98-training-train h3,
-  .win98-training-complete h3 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    font-size: 14px;
-  }
-  
-  .win98-training-intro ol {
-    margin-left: 20px;
-    margin-bottom: 16px;
-  }
-  
-  .win98-training-intro li {
-    margin-bottom: 8px;
-  }
-  
-  /* 按鈕容器 */
-  .win98-training-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  
-  /* 拍攝階段 */
-  .win98-training-thumbnails {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-  }
-  
-  .win98-training-thumbnail {
-    width: 120px;
-    height: 90px;
-    border: 1px solid #000;
-    padding: 2px;
-    background-color: #fff;
-    box-shadow: 
-      inset -1px -1px 0 0 #000,
-      inset 1px 1px 0 0 #fff;
-  }
-  
-  .win98-training-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* 預處理階段 */
-  .win98-progress {
-    width: 100%;
-    margin: 16px 0;
-  }
-  
-  .win98-progress-bar {
-    height: 20px;
-    background-color: #fff;
-    border: 1px solid #808080;
-    box-shadow: 
-      inset -1px -1px 0 0 #fff,
-      inset 1px 1px 0 0 #000;
-    overflow: hidden;
-  }
-  
-  .win98-progress-bar-fill {
-    height: 100%;
-    background-color: #000080;
-    transition: width 0.3s linear;
-  }
-  
-  .win98-progress-text {
-    text-align: center;
-    margin-top: 4px;
-    font-weight: bold;
-  }
-  
-  /* 資料增強階段 */
-  .win98-training-augment-display {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-  }
-  
-  .win98-training-augment-original,
-  .win98-training-augment-result {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .win98-training-augment-image,
-  .win98-training-augment-canvas {
-    width: 300px;
-    height: 225px;
-    border: 1px solid #000;
-    background-color: #fff;
-    object-fit: contain;
-  }
-  
-  .win98-training-augment h4 {
-    margin-bottom: 8px;
-    font-size: 12px;
-    text-align: center;
-  }
-  
-  /* 訓練階段 */
-  .win98-training-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 16px;
-    border: 1px solid #808080;
-    padding: 8px;
-    background-color: #f0f0f0;
-  }
-  
-  .win98-training-stat {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .win98-training-log {
-    margin-top: 16px;
-    border: 1px solid #808080;
-    height: 150px;
-    overflow-y: auto;
-    background-color: #000;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-  }
-  
-  .win98-training-log-title {
-    background-color: #c0c0c0;
-    color: #000;
-    padding: 4px;
-    font-weight: bold;
-    border-bottom: 1px solid #808080;
-  }
-  
-  .win98-training-log-content {
-    padding: 4px;
-    font-size: 11px;
-  }
-  
-  .win98-training-log-content div {
-    margin-bottom: 4px;
-  }
-  
-  /* 完成階段 */
-  .win98-training-complete {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .win98-training-complete-icon {
-    width: 64px;
-    height: 64px;
-    background-color: #00aa00;
-    border-radius: 50%;
-    margin: 16px 0;
-    position: relative;
-  }
-  
-  .win98-training-complete-icon::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 30px;
-    height: 15px;
-    border-left: 5px solid #fff;
-    border-bottom: 5px solid #fff;
-    transform: translate(-50%, -60%) rotate(-45deg);
-  }
-  
-  .win98-training-results {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin: 16px 0;
-    border: 1px solid #808080;
-    padding: 16px;
-    width: 80%;
-    background-color: #f0f0f0;
-  }
-  
-  .win98-training-result {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-  }
-  
-  /* 相機覆蓋層 */
-  .win98-training-camera-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .win98-training-camera-container {
-    background-color: #c0c0c0;
-    border: 2px solid #dfdfdf;
-    box-shadow: 
-      inset -1px -1px 0 0 #000,
-      inset 1px 1px 0 0 #fff,
-      inset -2px -2px 0 0 #808080,
-      inset 2px 2px 0 0 #dfdfdf;
-    padding: 16px;
-    border-radius: 0;
-  }
-  
-  .win98-training-camera-container h3 {
-    margin-top: 0;
-    margin-bottom: 16px;
-    font-size: 14px;
-    text-align: center;
-  }
-`;
-
-// 使用 useEffect 管理樣式
-const TrainingDemoWithStyles = (props) => {
-    useEffect(() => {
-      const styleSheet = document.createElement('style');
-      styleSheet.type = 'text/css';
-      styleSheet.innerText = styles;
-      document.head.appendChild(styleSheet);
-      
-      return () => {
-        if (document.head.contains(styleSheet)) {
-          document.head.removeChild(styleSheet);
-        }
-      };
-    }, []);
-  
-    return <TrainingDemo {...props} />;
-  };
-  
-  export default TrainingDemoWithStyles;

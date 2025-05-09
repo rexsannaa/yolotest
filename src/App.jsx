@@ -1,82 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import Desktop from './components/Win98UI/Desktop';
 import LoginScreen from './components/LoginScreen';
+import Desktop from './components/Win98UI/Desktop';
 import Window from './components/Win98UI/Window';
-import Button from './components/Win98UI/Button';
 import TrainingDemo from './components/TrainingDemo';
-import CameraCapture from './components/CameraCapture';
-import './components/Win98UI/styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '98.css/dist/98.css';
+import './App.css';
 
-// 添加全局CSS樣式
-const globalStyles = `
-  .win98-computer-content, 
-  .win98-recyclebin-content,
-  .win98-help-content {
-    padding: 16px;
-    font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
-    font-size: 12px;
-  }
-  
-  .win98-help-section {
-    margin-bottom: 16px;
-  }
-  
-  .win98-help-section h4 {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    font-size: 12px;
-  }
-  
-  .win98-help-actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .win98-empty-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    height: 100%;
-  }
-`;
-
+// App-specific styles
 const App = () => {
-    // 狀態管理
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
-    const [activeWindows, setActiveWindows] = useState([]);
-    const [activeWindowId, setActiveWindowId] = useState(null);
-  
-    // 初始化時添加樣式 - 移到這裡
-    useEffect(() => {
-      const style = document.createElement('style');
-      style.textContent = globalStyles;
-      document.head.appendChild(style);
-      
-      return () => {
-        document.head.removeChild(style);
-      };
-    }, []);
-  
-    // 檢查是否已經登入
-    useEffect(() => {
-      const savedUsername = localStorage.getItem('win98_username');
-      if (savedUsername) {
-        setUsername(savedUsername);
-        setIsLoggedIn(true);
-      }
-    }, []);
+  // State management
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+  const [activeWindows, setActiveWindows] = useState([]);
+  const [activeWindowId, setActiveWindowId] = useState(null);
 
-  // 處理登入
+  // Check if already logged in
+  useEffect(() => {
+    const savedUsername = localStorage.getItem('win98_username');
+    if (savedUsername) {
+      setUsername(savedUsername);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Handle login
   const handleLogin = (user) => {
     setUsername(user);
     setIsLoggedIn(true);
+    localStorage.setItem('win98_username', user);
   };
 
-  // 處理登出
+  // Handle logout
   const handleLogout = () => {
     localStorage.removeItem('win98_username');
     setUsername('');
@@ -84,7 +39,7 @@ const App = () => {
     setActiveWindows([]);
   };
 
-  // 處理圖標點擊
+  // Handle icon click
   const handleIconClick = (icon) => {
     switch (icon.id) {
       case 'vision-trainer':
@@ -107,7 +62,7 @@ const App = () => {
     }
   };
 
-  // 打開窗口
+  // Open window
   const openWindow = (id) => {
     if (!activeWindows.includes(id)) {
       setActiveWindows([...activeWindows, id]);
@@ -115,7 +70,7 @@ const App = () => {
     setActiveWindowId(id);
   };
 
-  // 關閉窗口
+  // Close window
   const closeWindow = (id) => {
     setActiveWindows(activeWindows.filter(windowId => windowId !== id));
     if (activeWindowId === id) {
@@ -123,55 +78,54 @@ const App = () => {
     }
   };
 
-  // 桌面圖標配置
+  // Desktop icons
   const desktopIcons = [
     {
       id: 'vision-trainer',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACZFBMVEUAAADQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICD///+yyAKBAAAAynRSTlMAAAAAAAAAAAAAAAAAAAAAAQUGBwgHBQIQJ0pthZmloZZvTyoRBiRbjKzAxcnMzcrBsJJgJQUlW6DAxcnMzczLyMO6saOGY0YxGw8JB0qBp7vFzM/Qzsy6oFozEC5ZiKS3w8nMzMvHwLejiWU9IBkOCQVDc5WsucHGycnIw7msj2AxFwkMM2mNn6y0u7y8uLKnkHJFIxYNCiVOcYaVnqKioZ6YiXRQKBMKBSlSeImWnZ+fm5N/XjYZCAEHFSMzREpQT0s/LRwNAwECAwQFBQQC+LDR2wAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjAw4RNCYBwVZ8AAAB9klEQVQ4y2NgQAeMTMwsrGzsHJwYYlzcPLx8/AKCQsIioljiYuISklLSMrJy8gqKSijiyiqKqmrqGppa2jq6evoGhkZGxgaGJqYIcTNzC0sraxtbO3sHRydnF1c3dw9PL28fXz//gMCg4JDQsPCIyKjomNi4+ITEpOSU1LT0jMys7JzcvPyCwqLiktKy8orKquqaWkFBnrr6hsam5pbWtvaOzq7unt6+/gkTJ02eMnXa9BkzZ82eM3fe/AULFy1esnTZ8hUrV61es3bd+g0bN23eYigkJLhl67btO3bu2r1n7779Bw4eOnzk6LHjJ06eOn3m7Dnz8xcuXrp85eq16zdu3rp95+69+w8ePnr85Omz5y9evgKJn9dv3uJ4Ux1v3r57/+Hjp89fvn77/uMnokt+/f7z99//f8ia2BGCXP/+/IIbwIxhACMjE9ACZgwDmJmZWcCC7BgGcHBwcrEChbgZMADRiEhOoAKQAF5OkDQeA/jFJKWkZWTl5OQVJBWVlJWUVdTU1TV5+XCEorEmL5+qmoamljYPj46uni4Dr653j56+L0NAYgIfj4BgkBAPj1BoWLiwSIRoZBTI1OiYWDFxfu2ExKRkkKaU1DRJqfQMaZnMrGwemZzcvPyCwiJZ4eKSUjnzMgYGWfmK8koGhqrqmupaBoZ6/QYAvYLKsXv72wIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDMtMTRUMTc6NTI6MzgrMDE6MDBWQAIhAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTAzLTE0VDE3OjUyOjM4KzAxOjAwJx26nQAAAFd6VFh0UmF3IHByb2ZpbGUgdHlwZSBpcHRjAAB4nOPyDAhxVigoyk/LzEnlUgADIwsuYwsTIxNLkxQDEyBEgDTDZAMjs1Qgy9jUyMTMxBzEB8uASKBKLgDqFxF08kI1lQAAAABJRU5ErkJggg==',
+      icon: '/icons/vision-app.png',
       label: '機器視覺訓練'
     },
     {
       id: 'my-computer',
-      icon: 'my-computer',
+      icon: '/icons/my-computer.png',
       label: '我的電腦'
     },
     {
       id: 'recyclebin',
-      icon: 'recycle-bin',
+      icon: '/icons/recycle-bin.png',
       label: '資源回收筒'
     },
     {
       id: 'help',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABI1BMVEUAAAA/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9v///+SJwGTAAAAYHRSTlMAAAAAAAAAAAAAAA9GcJSrGjid3TMGleUJqQFj9h1R8jvpBIT7FkrrM+AEefoRQOUu0gJ4/VnoLMsCePXCIe8Cd/gYkwEyJC0dCBRdp9TiyqN5Vz4qEwINIjtNWmNjUDsnFxECVh6cAAAAAWJLR0RhFMYpMQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+MIBgUbAT0qLQQAAAElSURBVDjL1dLZUsIwFAbgSNO0FBAQoYogLqigKO6iIu6KK+4K6Ps/hCdNaUtamAvH8V64SPL9k5lMziAUolBYUVXtT2BZNoRhiEKGaTq66/7PdcNBEZYVSTdIlCCMsuM6VZ/juK5DagRhJpO1GJPNZAio3+tNp0KhNhFC8bXa5zrqjQ2CcJPX1SjCLb691trbdBCKhAg7PN/ZsXcJwl0s7aG9/QOCcFg3+sjTRkg+JgjrJyfBCYIQjM8k85zLfXEhP1+OLq+ubwxwi8nt3f2D2QP18PhEhufCBZOXVwEvb2/0NaBSrdXrH42mbH40G9+fX9VKWULoK5l2KbHYiiTzlSIU8GlKVCShULRYaTSJFc2S3lRuMZZyE7MlVIiXHcbKDjdXEFH0C5qJoKdS2aJ9AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA2VDA1OjI3OjAxKzAwOjAwBKCG3QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wNlQwNToyNzowMSswMDowMHX9PmEAAAAASUVORK5CYII=',
+      icon: '/icons/help.png',
       label: '說明'
     },
     {
       id: 'logout',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABpFBMVEUAAADWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzPWMzP///+SQQz+AAAAinRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCxgqOD48MiAOBAYfRGR6jJymnIx6ZEQkAxdo4/v05mwZCEep+PyuTBJj9/tjD2H2+GEPFKr7qhQMia+vjgxDqfqpRBdl9/ZlFwQbSKDm5qBIHAQDGUyAmpqATBkDAQUOIDhKXFxKOCEOBQG9FYksAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAd0SU1FB+MIBgUbMSmUPAwAAAGsSURBVDjLY2AgATAyMbOwsrFzcGKIc/HwsrDy8QsICmGICwuIiIqJS0gKCUthiEsDFcsoKCopq4grqmHIq4vJyGpoamnr6OrpG2CIGxoZm5iamVtYWlnbYPrG1s7ewdHJ2cXVDcM97h6eXt4+vn7+AYEYngoKDgmNiIyKjomNw/BdfEJiUnJKalp6BiOKQGZWdk5uXn5BYVERI4pbiksSS8vKKyqrqmvQAqK2rrK+obGpuaW1jRFZoL2js6u7p7evf8LESSgCk6dMnTZ9xsxZs+fMRReYN3/BwkWLlyxdtnwFmsrUlStrV69Zu279ho1oAps2b9m6bfuOnbv27kMV2H/g4KHDR44eO37iJKrAqdNnzp47f+HipctX0D1z9dr1Gzdv3b5z9x6ae+4/ePjo8ZOnz56/eIkeTS9fvX7z9t37Dx/RY/rT5y9fv33/8ZOBAUPg129GJmYWVgxxoACDIBOzCJY0wcjGjOYKXgYGXhE0cW4GBm4RET5UcSEgEBURNwBqZQRhCYxUwcgIVCUGxPw84kjivEAFvLwiSBohomKiIhJQ1eLmZmL4hws2cgEAyW2NPRuCj7cAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDgtMDZUMDU6Mjc6MzMrMDA6MDCIud13AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTA4LTA2VDA1OjI3OjMzKzAwOjAw+eRlywAAAABJRU5ErkJggg==',
+      icon: '/icons/logout.png',
       label: '登出'
     }
   ];
 
-  // 窗口配置
-const windows = [
+  // Window configurations
+  const windows = [
     {
-        id: 'trainer',
-        title: '機器視覺訓練',
-        // 使用 desktopIcons 中定義的同一圖標
-        icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACZFBMVEUAAADQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICD///+yyAKBAAAAynRSTlMAAAAAAAAAAAAAAAAAAAAAAQUGBwgHBQIQJ0pthZmloZZvTyoRBiRbjKzAxcnMzcrBsJJgJQUlW6DAxcnMzczLyMO6saOGY0YxGw8JB0qBp7vFzM/Qzsy6oFozEC5ZiKS3w8nMzMvHwLejiWU9IBkOCQVDc5WsucHGycnIw7msj2AxFwkMM2mNn6y0u7y8uLKnkHJFIxYNCiVOcYaVnqKioZ6YiXRQKBMKBSlSeImWnZ+fm5N/XjYZCAEHFSMzREpQT0s/LRwNAwECAwQFBQQC+LDR2wAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjAw4RNCYBwVZ8AAAB9klEQVQ4y2NgQAeMTMwsrGzsHJwYYlzcPLx8/AKCQsIioljiYuISklLSMrJy8gqKSijiyiqKqmrqGppa2jq6evoGhkZGxgaGJqYIcTNzC0sraxtbO3sHRydnF1c3dw9PL28fXz//gMCg4JDQsPCIyKjomNi4+ITEpOSU1LT0jMys7JzcvPyCwqLiktKy8orKquqaWkFBnrr6hsam5pbWtvaOzq7unt6+/gkTJ02eMnXa9BkzZ82eM3fe/AULFy1esnTZ8hUrV61es3bd+g0bN23eYigkJLhl67btO3bu2r1n7779Bw4eOnzk6LHjJ06eOn3m7Dnz8xcuXrp85eq16zdu3rp95+69+w8ePnr85Omz5y9evgKJn9dv3uJ4Ux1v3r57/+Hjp89fvn77/uMnokt+/f7z99//f8ia2BGCXP/+/IIbwIxhACMjE9ACZgwDmJmZWcCC7BgGcHBwcrEChbgZMADRiEhOoAKQAF5OkDQeA/jFJKWkZWTl5OQVJBWVlJWUVdTU1TV5+XCEorEmL5+qmoamljYPj46uni4Dr653j56+L0NAYgIfj4BgkBAPj1BoWLiwSIRoZBTI1OiYWDFxfu2ExKRkkKaU1DRJqfQMaZnMrGwemZzcvPyCwiJZ4eKSUjnzMgYGWfmK8koGhqrqmupaBoZ6/QYAvYLKsXv72wIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDMtMTRUMTc6NTI6MzgrMDE6MDBWQAIhAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTAzLTE0VDE3OjUyOjM4KzAxOjAwJx26nQAAAFd6VFh0UmF3IHByb2ZpbGUgdHlwZSBpcHRjAAB4nOPyDAhxVigoyk/LzEnlUgADIwsuYwsTIxNLkxQDEyBEgDTDZAMjs1Qgy9jUyMTMxBzEB8uASKBKLgDqFxF08kI1lQAAAABJRU5ErkJggg==',
-        content: <TrainingDemo onClose={() => closeWindow('trainer')} />,
-        position: { x: 100, y: 100 },
-        size: { width: 700, height: 500 },
-        resizable: true,
-        minimizable: true,
-        maximizable: true
-      },
+      id: 'trainer',
+      title: '機器視覺訓練',
+      icon: '/icons/vision-app.png',
+      content: <TrainingDemo onClose={() => closeWindow('trainer')} />,
+      position: { x: 100, y: 100 },
+      size: { width: 700, height: 500 },
+      resizable: true,
+      minimizable: true,
+      maximizable: true
+    },
     {
       id: 'my-computer',
       title: '我的電腦',
-      icon: 'my-computer',
+      icon: '/icons/my-computer.png',
       content: (
-        <div className="win98-computer-content">
+        <div className="window-content">
           <h3>我的電腦</h3>
           <p>這是一個簡化的Windows 98界面模擬，用於展示機器視覺訓練系統。</p>
           <p>請點擊桌面上的「機器視覺訓練」圖標來開始體驗。</p>
@@ -186,12 +140,12 @@ const windows = [
     {
       id: 'recyclebin',
       title: '資源回收筒',
-      icon: 'recycle-bin',
+      icon: '/icons/recycle-bin.png',
       content: (
-        <div className="win98-recyclebin-content">
-          <div className="win98-empty-container">
+        <div className="window-content">
+          <div className="text-center my-4">
             <p>資源回收筒是空的</p>
-            <Button onClick={() => closeWindow('recyclebin')}>關閉</Button>
+            <button className="btn" onClick={() => closeWindow('recyclebin')}>關閉</button>
           </div>
         </div>
       ),
@@ -204,17 +158,17 @@ const windows = [
     {
       id: 'help',
       title: '說明',
-      icon: 'data:image/png;base64,...',
+      icon: '/icons/help.png',
       content: (
-        <div className="win98-help-content">
+        <div className="window-content">
           <h3>Windows 98 風格機器視覺演示系統</h3>
           
-          <div className="win98-help-section">
+          <div className="help-section">
             <h4>使用說明：</h4>
             <p>本系統模擬了Windows 98的經典界面，並提供了一個簡化的機器視覺訓練流程展示。</p>
           </div>
           
-          <div className="win98-help-section">
+          <div className="help-section">
             <h4>功能介紹：</h4>
             <ul>
               <li>雙擊「機器視覺訓練」圖標開始體驗</li>
@@ -224,7 +178,7 @@ const windows = [
             </ul>
           </div>
           
-          <div className="win98-help-section">
+          <div className="help-section">
             <h4>操作技巧：</h4>
             <ul>
               <li>窗口可以拖動、調整大小</li>
@@ -233,8 +187,8 @@ const windows = [
             </ul>
           </div>
           
-          <div className="win98-help-actions">
-            <Button onClick={() => closeWindow('help')}>關閉說明</Button>
+          <div className="text-center mt-4">
+            <button className="btn" onClick={() => closeWindow('help')}>關閉說明</button>
           </div>
         </div>
       ),
@@ -247,7 +201,7 @@ const windows = [
   ];
   
   return (
-    <React.Fragment>
+    <div className="win98-app">
       {!isLoggedIn ? (
         <LoginScreen onLogin={handleLogin} />
       ) : (
@@ -258,10 +212,12 @@ const windows = [
           onIconClick={handleIconClick}
           activeWindows={activeWindows}
           activeWindowId={activeWindowId}
+          onWindowActivate={setActiveWindowId}
+          onWindowClose={closeWindow}
         />
       )}
-    </React.Fragment>
-  ); // ✅ 這行是報錯的根源，現在已正確對應
+    </div>
+  );
 };
 
 export default App;

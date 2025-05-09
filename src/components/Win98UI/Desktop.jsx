@@ -1,113 +1,125 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css';
-import Icon from './Icon';
 import Window from './Window';
 
 /**
- * Windows 98 風格桌面元件
+ * Windows 98 style Desktop component
  * 
- * @param {Object} props - 元件屬性
- * @param {Array} props.icons - 桌面圖標列表
- * @param {Array} props.windows - 窗口列表
- * @param {Function} props.onIconClick - 圖標點擊處理函數
- * @param {string} props.username - 使用者名稱，顯示在開始選單
+ * @param {Object} props - Component props
+ * @param {Array} props.icons - Desktop icons list
+ * @param {Array} props.windows - Windows configuration
+ * @param {Function} props.onIconClick - Icon click handler
+ * @param {Array} props.activeWindows - List of active window IDs
+ * @param {string} props.activeWindowId - Currently active window ID
+ * @param {Function} props.onWindowActivate - Window activation handler
+ * @param {Function} props.onWindowClose - Window close handler
+ * @param {string} props.username - Username to display in start menu
  */
 const Desktop = ({
   icons = [],
   windows = [],
   onIconClick,
-  username = '使用者',
-  children
+  activeWindows = [],
+  activeWindowId,
+  onWindowActivate,
+  onWindowClose,
+  username = '使用者'
 }) => {
-  const [activeWindows, setActiveWindows] = useState([]);
-  const [activeWindowId, setActiveWindowId] = useState(null);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedIcon, setSelectedIcon] = useState(null);
   
-  // 更新時間
+  // Update time every minute
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60000); // 每分鐘更新一次
+    }, 60000);
     
     return () => clearInterval(timer);
   }, []);
   
-  // 格式化時間為 HH:MM
+  // Format time as HH:MM
   const formattedTime = currentTime.toLocaleTimeString('zh-TW', { 
     hour: '2-digit', 
     minute: '2-digit',
     hour12: false
   });
   
-  // 設置窗口為活動狀態
-  const activateWindow = (id) => {
-    setActiveWindowId(id);
-    setActiveWindows(prev => {
-      // 將指定 id 窗口移動到陣列的末尾（最上層）
-      const filtered = prev.filter(windowId => windowId !== id);
-      return [...filtered, id];
-    });
-  };
-  
-  // 關閉窗口
-  // 關閉窗口
-    const closeWindow = (id) => {
-        setActiveWindows(prev => prev.filter(windowId => windowId !== id));
-        
-        // 如果關閉的是當前活動窗口
-        if (activeWindowId === id) {
-        const newActiveWindows = activeWindows.filter(windowId => windowId !== id);
-        if (newActiveWindows.length > 0) {
-            // 還有其他窗口，將最上層窗口設為活動窗口
-            setActiveWindowId(newActiveWindows[newActiveWindows.length - 1]);
-        } else {
-            // 沒有其他窗口了，設為 null
-            setActiveWindowId(null);
-        }
-        }
-    };
-  
-  // 切換開始選單
+  // Toggle start menu
   const toggleStartMenu = () => {
     setStartMenuOpen(prev => !prev);
   };
   
-  // 關閉開始選單（當點擊桌面其他區域時）
+  // Close start menu when clicking elsewhere
   const closeStartMenu = () => {
     if (startMenuOpen) {
       setStartMenuOpen(false);
     }
   };
 
+  // Handle desktop icon click
+  const handleIconClick = (icon, index) => {
+    // Select the icon (visual feedback)
+    setSelectedIcon(index);
+    
+    // Handle icon action
+    if (onIconClick) {
+      onIconClick(icon);
+    }
+    
+    // Close start menu if open
+    closeStartMenu();
+  };
+  
+  // Handle desktop icon double click (same as click for this demo)
+  const handleIconDoubleClick = (icon) => {
+    if (onIconClick) {
+      onIconClick(icon);
+    }
+    closeStartMenu();
+  };
+  
+  // Handle desktop click (clear selection)
+  const handleDesktopClick = (e) => {
+    // Only clear if clicking directly on the desktop
+    if (e.target.className === 'desktop' || e.target.className.includes('desktop-background')) {
+      setSelectedIcon(null);
+      closeStartMenu();
+    }
+  };
+
   return (
-    <div className="win98-desktop" onClick={closeStartMenu}>
-      {/* 桌面背景和圖標 */}
-      <div className="win98-desktop-background">
-        <div className="win98-desktop-icons">
+    <div className="win98-app-container" onClick={closeStartMenu}>
+      {/* Desktop background with icons */}
+      <div className="desktop" onClick={handleDesktopClick}>
+        <div className="desktop-background"></div>
+        <div className="desktop-icons">
           {icons.map((icon, index) => (
-            <Icon
+            <div 
               key={`desktop-icon-${index}`}
-              icon={icon.icon}
-              label={icon.label}
-              onClick={() => {
-                onIconClick && onIconClick(icon);
-                closeStartMenu();
+              className={`desktop-icon ${selectedIcon === index ? 'desktop-icon-selected' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleIconClick(icon, index);
               }}
-            />
+              onDoubleClick={() => handleIconDoubleClick(icon)}
+            >
+              <img src={icon.icon} alt="" />
+              <div className="icon-label">{icon.label}</div>
+            </div>
           ))}
         </div>
         
-        {/* 渲染所有開啟的窗口 */}
+        {/* Render all active windows */}
         {windows.map((window) => (
           activeWindows.includes(window.id) && (
             <Window
               key={window.id}
+              id={window.id}
               title={window.title}
               icon={window.icon}
               isActive={activeWindowId === window.id}
-              onFocus={() => activateWindow(window.id)}
-              onClose={() => closeWindow(window.id)}
+              onActivate={() => onWindowActivate(window.id)}
+              onClose={() => onWindowClose(window.id)}
               initialPosition={window.position}
               initialSize={window.size}
               resizable={window.resizable}
@@ -118,102 +130,97 @@ const Desktop = ({
             </Window>
           )
         ))}
-        
-        {/* 其他動態窗口 */}
-        {children}
       </div>
       
-      {/* 任務欄 */}
-      <div className="win98-taskbar">
-        {/* 開始按鈕 */}
+      {/* Taskbar */}
+      <div className="taskbar">
+        {/* Start button */}
         <button 
-          className={`win98-start-button ${startMenuOpen ? 'win98-start-button--active' : ''}`}
+          className={`start-button${startMenuOpen ? ' active' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
             toggleStartMenu();
           }}
         >
-          <div className="win98-start-logo"></div>
+          <div className="start-logo"></div>
           開始
         </button>
         
-        {/* 任務欄按鈕 */}
-        <div className="win98-taskbar-buttons">
+        {/* Taskbar buttons */}
+        <div className="taskbar-buttons">
           {windows.map((window) => (
             activeWindows.includes(window.id) && (
               <button
                 key={`taskbar-${window.id}`}
-                className={`win98-taskbar-button ${activeWindowId === window.id ? 'win98-taskbar-button--active' : ''}`}
-                onClick={() => activateWindow(window.id)}
+                className={`taskbar-button${activeWindowId === window.id ? ' taskbar-button--active' : ''}`}
+                onClick={() => onWindowActivate(window.id)}
               >
                 {window.icon && (
-                  <span className="win98-taskbar-button-icon">
-                    <img src={window.icon} alt="" />
-                  </span>
+                  <img src={window.icon} alt="" />
                 )}
-                <span className="win98-taskbar-button-text">{window.title}</span>
+                <span>{window.title}</span>
               </button>
             )
           ))}
         </div>
         
-        {/* 系統托盤 */}
-        <div className="win98-system-tray">
-          <div className="win98-system-time">{formattedTime}</div>
+        {/* System tray */}
+        <div className="system-tray">
+          <div className="system-time">{formattedTime}</div>
         </div>
       </div>
       
-      {/* 開始選單 */}
+      {/* Start menu */}
       {startMenuOpen && (
         <div 
-          className="win98-start-menu"
+          className="start-menu"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="win98-start-menu-header">
-            <div className="win98-start-menu-windows-logo"></div>
-            <span className="win98-start-menu-username">{username}</span>
+          <div className="start-menu-header">
+            <div className="start-menu-windows-logo"></div>
+            <span>{username}</span>
           </div>
           
-          <div className="win98-start-menu-items">
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--programs"></div>
+          <div className="start-menu-items">
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/programs.png)' }}></div>
               <span>程式集</span>
-              <div className="win98-start-menu-item-arrow"></div>
+              <div className="start-menu-item-arrow"></div>
             </div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--documents"></div>
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/documents.png)' }}></div>
               <span>文件</span>
-              <div className="win98-start-menu-item-arrow"></div>
+              <div className="start-menu-item-arrow"></div>
             </div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--settings"></div>
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/settings.png)' }}></div>
               <span>設定</span>
-              <div className="win98-start-menu-item-arrow"></div>
+              <div className="start-menu-item-arrow"></div>
             </div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--find"></div>
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/find.png)' }}></div>
               <span>尋找</span>
-              <div className="win98-start-menu-item-arrow"></div>
+              <div className="start-menu-item-arrow"></div>
             </div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--help"></div>
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/help.png)' }}></div>
               <span>說明</span>
             </div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--run"></div>
+            <div className="start-menu-item">
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/run.png)' }}></div>
               <span>執行...</span>
             </div>
             
-            <div className="win98-start-menu-separator"></div>
+            <div className="start-menu-separator"></div>
             
-            <div className="win98-start-menu-item">
-              <div className="win98-start-menu-item-icon win98-start-menu-item-icon--shutdown"></div>
-              <span>關機...</span>
+            <div className="start-menu-item" onClick={() => onIconClick({ id: 'logout' })}>
+              <div className="start-menu-item-icon" style={{ backgroundImage: 'url(/icons/shutdown.png)' }}></div>
+              <span>登出...</span>
             </div>
           </div>
         </div>

@@ -1,38 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './styles.css';
-import Button from './Button';
 
 /**
- * Windows 98 風格視窗元件
+ * Windows 98 style Window component
  * 
- * @param {Object} props - 元件屬性
- * @param {string} props.title - 視窗標題
- * @param {string} props.icon - 標題列圖標
- * @param {boolean} props.isActive - 視窗是否為活動狀態
- * @param {Function} props.onFocus - 當視窗獲得焦點時的回呼函數
- * @param {Function} props.onClose - 當視窗關閉時的回呼函數
- * @param {Object} props.initialPosition - 視窗初始位置 {x, y}
- * @param {Object} props.initialSize - 視窗初始大小 {width, height}
- * @param {boolean} props.resizable - 視窗是否可調整大小
- * @param {boolean} props.minimizable - 視窗是否可最小化
- * @param {boolean} props.maximizable - 視窗是否可最大化
- * @param {React.ReactNode} props.children - 視窗內容
+ * @param {Object} props - Component props
+ * @param {string} props.id - Window ID
+ * @param {string} props.title - Window title
+ * @param {string} props.icon - Title bar icon
+ * @param {boolean} props.isActive - Whether window is active
+ * @param {Function} props.onActivate - Callback when window is activated
+ * @param {Function} props.onClose - Callback when window is closed
+ * @param {Object} props.initialPosition - Initial window position {x, y}
+ * @param {Object} props.initialSize - Initial window size {width, height}
+ * @param {boolean} props.resizable - Whether window is resizable
+ * @param {boolean} props.minimizable - Whether window can be minimized
+ * @param {boolean} props.maximizable - Whether window can be maximized
+ * @param {React.ReactNode} props.children - Window content
  */
 const Window = ({
-  title = '視窗',
+  id,
+  title = 'Window',
   icon,
   isActive = true,
-  onFocus,
+  onActivate,
   onClose,
   initialPosition = { x: 50, y: 50 },
   initialSize = { width: 400, height: 300 },
   resizable = true,
   minimizable = true,
   maximizable = true,
-  children,
-  ...restProps
+  children
 }) => {
-  // 視窗位置和大小狀態
+  // Window position and size state
   const [position, setPosition] = useState(initialPosition);
   const [size, setSize] = useState(initialSize);
   const [isDragging, setIsDragging] = useState(false);
@@ -41,25 +40,25 @@ const Window = ({
   const [isMaximized, setIsMaximized] = useState(false);
   const [previousState, setPreviousState] = useState(null);
   
-  // 參考點，用於拖曳和調整大小的計算
+  // Reference points for drag and resize calculations
   const dragOffset = useRef({ x: 0, y: 0 });
   const resizeStart = useRef({ x: 0, y: 0, width: 0, height: 0 });
   const windowRef = useRef(null);
   
-  // 視窗焦點處理
-  const handleFocus = () => {
-    if (onFocus) {
-      onFocus();
+  // Handle window activation
+  const handleActivate = () => {
+    if (onActivate && !isActive) {
+      onActivate();
     }
   };
   
-  // 開始拖曳視窗
+  // Start dragging window
   const startDrag = (e) => {
     if (isMaximized) return;
     
     e.preventDefault();
     
-    // 計算拖曳偏移量
+    // Calculate drag offset
     const rect = windowRef.current.getBoundingClientRect();
     dragOffset.current = {
       x: e.clientX - rect.left,
@@ -67,23 +66,23 @@ const Window = ({
     };
     
     setIsDragging(true);
-    handleFocus();
+    handleActivate();
     
-    // 添加全域滑鼠事件監聽
+    // Add global mouse event listeners
     document.addEventListener('mousemove', handleDrag);
     document.addEventListener('mouseup', stopDrag);
   };
   
-  // 處理視窗拖曳
+  // Handle window dragging
   const handleDrag = (e) => {
     if (!isDragging) return;
     
     const newX = e.clientX - dragOffset.current.x;
     const newY = e.clientY - dragOffset.current.y;
     
-    // 避免視窗被拖出視窗範圍
+    // Prevent dragging window out of viewport
     const maxX = window.innerWidth - size.width;
-    const maxY = window.innerHeight - size.height;
+    const maxY = window.innerHeight - size.height - 28; // Account for taskbar
     
     setPosition({
       x: Math.max(0, Math.min(newX, maxX)),
@@ -91,22 +90,23 @@ const Window = ({
     });
   };
   
-  // 停止拖曳
+  // Stop dragging
   const stopDrag = () => {
     setIsDragging(false);
     
-    // 移除全域滑鼠事件監聽
+    // Remove global mouse event listeners
     document.removeEventListener('mousemove', handleDrag);
     document.removeEventListener('mouseup', stopDrag);
   };
   
-  // 開始調整視窗大小
+  // Start resizing window
   const startResize = (e, direction) => {
     if (isMaximized || !resizable) return;
     
     e.preventDefault();
+    e.stopPropagation();
     
-    // 紀錄調整開始時的狀態
+    // Record state at start of resize
     resizeStart.current = {
       x: e.clientX,
       y: e.clientY,
@@ -118,59 +118,59 @@ const Window = ({
     
     setResizeDirection(direction);
     setIsResizing(true);
-    handleFocus();
+    handleActivate();
     
-    // 添加全域滑鼠事件監聽
+    // Add global mouse event listeners
     document.addEventListener('mousemove', handleResize);
     document.addEventListener('mouseup', stopResize);
   };
   
-  // 處理視窗大小調整
+  // Handle window resizing
   const handleResize = (e) => {
     if (!isResizing) return;
     
     const deltaX = e.clientX - resizeStart.current.x;
     const deltaY = e.clientY - resizeStart.current.y;
     
-    const minWidth = 150;  // 最小寬度
-    const minHeight = 100; // 最小高度
+    const minWidth = 200;  // Minimum width
+    const minHeight = 150; // Minimum height
     
     let newWidth = resizeStart.current.width;
     let newHeight = resizeStart.current.height;
     let newX = resizeStart.current.posX;
     let newY = resizeStart.current.posY;
     
-    // 根據調整方向計算新的大小和位置
+    // Calculate new size and position based on resize direction
     switch (resizeDirection) {
-      case 'e':  // 右
+      case 'e':  // Right
         newWidth = Math.max(minWidth, resizeStart.current.width + deltaX);
         break;
-      case 's':  // 下
+      case 's':  // Bottom
         newHeight = Math.max(minHeight, resizeStart.current.height + deltaY);
         break;
-      case 'se': // 右下
+      case 'se': // Bottom-right
         newWidth = Math.max(minWidth, resizeStart.current.width + deltaX);
         newHeight = Math.max(minHeight, resizeStart.current.height + deltaY);
         break;
-      case 'w':  // 左
+      case 'w':  // Left
         newWidth = Math.max(minWidth, resizeStart.current.width - deltaX);
         newX = resizeStart.current.posX + resizeStart.current.width - newWidth;
         break;
-      case 'n':  // 上
+      case 'n':  // Top
         newHeight = Math.max(minHeight, resizeStart.current.height - deltaY);
         newY = resizeStart.current.posY + resizeStart.current.height - newHeight;
         break;
-      case 'sw': // 左下
+      case 'sw': // Bottom-left
         newWidth = Math.max(minWidth, resizeStart.current.width - deltaX);
         newHeight = Math.max(minHeight, resizeStart.current.height + deltaY);
         newX = resizeStart.current.posX + resizeStart.current.width - newWidth;
         break;
-      case 'ne': // 右上
+      case 'ne': // Top-right
         newWidth = Math.max(minWidth, resizeStart.current.width + deltaX);
         newHeight = Math.max(minHeight, resizeStart.current.height - deltaY);
         newY = resizeStart.current.posY + resizeStart.current.height - newHeight;
         break;
-      case 'nw': // 左上
+      case 'nw': // Top-left
         newWidth = Math.max(minWidth, resizeStart.current.width - deltaX);
         newHeight = Math.max(minHeight, resizeStart.current.height - deltaY);
         newX = resizeStart.current.posX + resizeStart.current.width - newWidth;
@@ -180,41 +180,52 @@ const Window = ({
         break;
     }
     
-    // 更新視窗大小和位置
+    // Constrain to viewport
+    const maxX = window.innerWidth - newWidth;
+    const maxY = window.innerHeight - newHeight - 28; // Account for taskbar
+    
+    newX = Math.max(0, Math.min(newX, maxX));
+    newY = Math.max(0, Math.min(newY, maxY));
+    
+    // Update window size and position
     setSize({ width: newWidth, height: newHeight });
     setPosition({ x: newX, y: newY });
   };
   
-  // 停止調整大小
+  // Stop resizing
   const stopResize = () => {
     setIsResizing(false);
     setResizeDirection('');
     
-    // 移除全域滑鼠事件監聽
+    // Remove global mouse event listeners
     document.removeEventListener('mousemove', handleResize);
     document.removeEventListener('mouseup', stopResize);
   };
   
-  // 最大化視窗
-  const maximizeWindow = () => {
+  // Maximize window
+  const maximizeWindow = (e) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    
     if (!maximizable) return;
     
     if (!isMaximized) {
-      // 保存當前狀態以便還原
+      // Save current state for later restoration
       setPreviousState({
         position: { ...position },
         size: { ...size }
       });
       
-      // 設定為最大化狀態
+      // Set to maximized state
       setPosition({ x: 0, y: 0 });
       setSize({
         width: window.innerWidth,
-        height: window.innerHeight - 30  // 留出任務欄空間
+        height: window.innerHeight - 28  // Account for taskbar
       });
       setIsMaximized(true);
     } else {
-      // 還原先前的狀態
+      // Restore previous state
       if (previousState) {
         setPosition(previousState.position);
         setSize(previousState.size);
@@ -223,13 +234,13 @@ const Window = ({
     }
   };
   
-  // 視窗大小變化時，調整最大化的視窗大小
+  // When window size changes, adjust maximized window size
   useEffect(() => {
     const handleResize = () => {
       if (isMaximized) {
         setSize({
           width: window.innerWidth,
-          height: window.innerHeight - 30
+          height: window.innerHeight - 28
         });
       }
     };
@@ -238,8 +249,9 @@ const Window = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [isMaximized]);
   
-  // 視窗樣式
+  // Window style
   const windowStyle = {
+    position: 'absolute',
     left: `${position.x}px`,
     top: `${position.y}px`,
     width: `${size.width}px`,
@@ -247,101 +259,87 @@ const Window = ({
     zIndex: isActive ? 100 : 10
   };
   
-  // 視窗類名
-  const windowClasses = [
-    'win98-window',
-    isActive ? 'win98-window--active' : '',
-    isMaximized ? 'win98-window--maximized' : '',
-    !resizable ? 'win98-window--fixed' : ''
-  ].filter(Boolean).join(' ');
-  
   return (
     <div
       ref={windowRef}
-      className={windowClasses}
+      className={`window${isActive ? ' window-active' : ''}`}
       style={windowStyle}
-      onClick={handleFocus}
-      {...restProps}
+      onClick={handleActivate}
     >
-      {/* 視窗標題列 */}
+      {/* Window title bar */}
       <div 
-        className={`win98-window-titlebar ${isActive ? 'win98-window-titlebar--active' : ''}`}
+        className="title-bar"
         onMouseDown={startDrag}
         onDoubleClick={maximizeWindow}
       >
-        {icon && (
-          <div className="win98-window-icon">
-            <img src={icon} alt="" />
-          </div>
-        )}
-        <div className="win98-window-title">{title}</div>
-        <div className="win98-window-controls">
+        <div className="title-bar-text">
+          {icon && (
+            <img 
+              src={icon} 
+              alt="" 
+              style={{ width: '16px', height: '16px', marginRight: '4px', verticalAlign: 'text-bottom' }}
+            />
+          )}
+          {title}
+        </div>
+        <div className="title-bar-controls">
           {minimizable && (
-            <button className="win98-window-control win98-window-control--minimize">
-              <span></span>
-            </button>
+            <button aria-label="Minimize"></button>
           )}
           {maximizable && (
             <button 
-              className="win98-window-control win98-window-control--maximize"
-              onClick={(e) => {
-                e.stopPropagation();
-                maximizeWindow();
-              }}
-            >
-              <span></span>
-            </button>
+              aria-label="Maximize"
+              onClick={maximizeWindow}
+            ></button>
           )}
           <button 
-            className="win98-window-control win98-window-control--close"
+            aria-label="Close"
             onClick={(e) => {
               e.stopPropagation();
               if (onClose) onClose();
             }}
-          >
-            <span></span>
-          </button>
+          ></button>
         </div>
       </div>
       
-      {/* 視窗內容區 */}
-      <div className="win98-window-content">
+      {/* Window content */}
+      <div className="window-body" style={{ position: 'relative', height: 'calc(100% - 28px)', overflow: 'auto' }}>
         {children}
       </div>
       
-      {/* 調整大小的控制點 */}
+      {/* Resize handles */}
       {resizable && !isMaximized && (
         <>
           <div 
-            className="win98-window-resize win98-window-resize--n" 
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', cursor: 'n-resize' }} 
             onMouseDown={(e) => startResize(e, 'n')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--e" 
+            style={{ position: 'absolute', top: 0, right: 0, bottom: 0, width: '4px', cursor: 'e-resize' }} 
             onMouseDown={(e) => startResize(e, 'e')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--s" 
+            style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '4px', cursor: 's-resize' }} 
             onMouseDown={(e) => startResize(e, 's')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--w" 
+            style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', cursor: 'w-resize' }} 
             onMouseDown={(e) => startResize(e, 'w')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--ne" 
+            style={{ position: 'absolute', top: 0, right: 0, width: '8px', height: '8px', cursor: 'ne-resize' }} 
             onMouseDown={(e) => startResize(e, 'ne')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--se" 
+            style={{ position: 'absolute', bottom: 0, right: 0, width: '8px', height: '8px', cursor: 'se-resize' }} 
             onMouseDown={(e) => startResize(e, 'se')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--sw" 
+            style={{ position: 'absolute', bottom: 0, left: 0, width: '8px', height: '8px', cursor: 'sw-resize' }} 
             onMouseDown={(e) => startResize(e, 'sw')}
           ></div>
           <div 
-            className="win98-window-resize win98-window-resize--nw" 
+            style={{ position: 'absolute', top: 0, left: 0, width: '8px', height: '8px', cursor: 'nw-resize' }} 
             onMouseDown={(e) => startResize(e, 'nw')}
           ></div>
         </>
