@@ -119,19 +119,96 @@ const App = () => {
       maximizable: true
     },
     {
-      id: 'my-computer',
-      title: '我的電腦',
-      icon: 'my-computer',
-      content: (
-        <div className="win98-computer-content">
-          <h3>我的電腦</h3>
-          <p>這是一個簡化的Windows 98界面模擬，用於展示機器視覺訓練系統。</p>
-          <p>請點擊桌面上的「機器視覺訓練」圖標來開始體驗。</p>
-        </div>
-  );
-};
-
-export default App;
+        id: 'my-computer',
+        title: '我的電腦',
+        icon: 'my-computer',
+        content: (
+          <div className="win98-computer-content">
+            <h3>我的電腦</h3>
+            <p>這是一個簡化的Windows 98界面模擬，用於展示機器視覺訓練系統。</p>
+            <p>請點擊桌面上的「機器視覺訓練」圖標來開始體驗。</p>
+          </div>
+        ),
+        position: { x: 150, y: 120 },
+        size: { width: 400, height: 300 },
+        resizable: true,
+        minimizable: true,
+        maximizable: true
+      },
+      {
+        id: 'recyclebin',
+        title: '資源回收筒',
+        icon: 'recycle-bin',
+        content: (
+          <div className="win98-recyclebin-content">
+            <div className="win98-empty-container">
+              <p>資源回收筒是空的</p>
+              <Button onClick={() => closeWindow('recyclebin')}>關閉</Button>
+            </div>
+          </div>
+        ),
+        position: { x: 200, y: 150 },
+        size: { width: 350, height: 250 },
+        resizable: true,
+        minimizable: true,
+        maximizable: true
+      },
+      {
+        id: 'help',
+        title: '說明',
+        icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABI1BMVEUAAAA/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9v///+SJwGTAAAAYHRSTlMAAAAAAAAAAAAAAA9GcJSrGjid3TMGleUJqQFj9h1R8jvpBIT7FkrrM+AEefoRQOUu0gJ4/VnoLMsCePXCIe8Cd/gYkwEyJC0dCBRdp9TiyqN5Vz4qEwINIjtNWmNjUDsnFxECVh6cAAAAAWJLR0RhFMYpMQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+MIBgUbAT0qLQQAAAElSURBVDjL1dLZUsIwFAbgSNO0FBAQoYogLqigKO6iIu6KK+4K6Ps/hCdNaUtamAvH8V64SPL9k5lMziAUolBYUVXtT2BZNoRhiEKGaTq66/7PdcNBEZYVSTdIlCCMsuM6VZ/juK5DagRhJpO1GJPNZAio3+tNp0KhNhFC8bXa5zrqjQ2CcJPX1SjCLb691trbdBCKhAg7PN/ZsXcJwl0s7aG9/QOCcFg3+sjTRkg+JgjrJyfBCYIQjM8k85zLfXEhP1+OLq+ubwxwi8nt3f2D2QP18PhEhufCBZOXVwEvb2/0NaBSrdXrH42mbH40G9+fX9VKWULoK5l2KbHYiiTzlSIU8GlKVCShULRYaTSJFc2S3lRuMZZyE7MlVIiXHcbKDjdXEFH0C5qJoKdS2aJ9AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA2VDA1OjI3OjAxKzAwOjAwBKCG3QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wNlQwNToyNzowMSswMDowMHX9PmEAAAAASUVORK5CYII=',
+        content: (
+          <div className="win98-help-content">
+            <h3>使用說明</h3>
+            <div className="win98-help-section">
+              <h4>基本操作</h4>
+              <ul>
+                <li>點擊桌面上的「機器視覺訓練」圖標開始體驗</li>
+                <li>窗口可以拖動、調整大小、最小化和最大化</li>
+                <li>點擊窗口右上角的 X 按鈕關閉窗口</li>
+              </ul>
+            </div>
+            <div className="win98-help-section">
+              <h4>機器視覺訓練流程</h4>
+              <ol>
+                <li>拍攝或上傳樣本圖像</li>
+                <li>觀看圖像預處理過程</li>
+                <li>體驗資料增強效果展示</li>
+                <li>模擬訓練過程並查看結果</li>
+              </ol>
+            </div>
+            <div className="win98-help-actions">
+              <Button onClick={() => closeWindow('help')}>關閉說明</Button>
+            </div>
+          </div>
+        ),
+        position: { x: 250, y: 180 },
+        size: { width: 400, height: 350 },
+        resizable: true,
+        minimizable: true,
+        maximizable: true
+      }
+    ];
+  
+    // 渲染登入畫面或桌面
+    if (!isLoggedIn) {
+      return <LoginScreen onLogin={handleLogin} />;
+    }
+  
+    // 渲染桌面環境
+    return (
+      <Desktop
+        icons={desktopIcons}
+        windows={windows}
+        onIconClick={handleIconClick}
+        username={username}
+        activeWindows={activeWindows}
+        activeWindowId={activeWindowId}
+      />
+    );
+  };
+  
+  export default App;
       ),
       position: { x: 150, y: 120 },
       size: { width: 400, height: 300 },
@@ -158,31 +235,58 @@ export default App;
       maximizable: true
     },
     {
-      id: 'help',
-      title: '說明',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABI1BMVEUAAAA/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9v///+SJwGTAAAAYHRSTlMAAAAAAAAAAAAAAA9GcJSrGjid3TMGleUJqQFj9h1R8jvpBIT7FkrrM+AEefoRQOUu0gJ4/VnoLMsCePXCIe8Cd/gYkwEyJC0dCBRdp9TiyqN5Vz4qEwINIjtNWmNjUDsnFxECVh6cAAAAAWJLR0RhFMYpMQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+MIBgUbAT0qLQQAAAElSURBVDjL1dLZUsIwFAbgSNO0FBAQoYogLqigKO6iIu6KK+4K6Ps/hCdNaUtamAvH8V64SPL9k5lMziAUolBYUVXtT2BZNoRhiEKGaTq66/7PdcNBEZYVSTdIlCCMsuM6VZ/juK5DagRhJpO1GJPNZAio3+tNp0KhNhFC8bXa5zrqjQ2CcJPX1SjCLb691trbdBCKhAg7PN/ZsXcJwl0s7aG9/QOCcFg3+sjTRkg+JgjrJyfBCYIQjM8k85zLfXEhP1+OLq+ubwxwi8nt3f2D2QP18PhEhufCBZOXVwEvb2/0NaBSrdXrH42mbH40G9+fX9VKWULoK5l2KbHYiiTzlSIU8GlKVCShULRYaTSJFc2S3lRuMZZyE7MlVIiXHcbKDjdXEFH0C5qJoKdS2aJ9AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA2VDA1OjI3OjAxKzAwOjAwBKCG3QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wNlQwNToyNzowMSswMDowMHX9PmEAAAAASUVORK5CYII=',
-      content: (
-        <div className="win98-help-content">
-          <h3>使用說明</h3>
-          <div className="win98-help-section">
-            <h4>基本操作</h4>
-            <ul>
-              <li>點擊桌面上的「機器視覺訓練」圖標開始體驗</li>
-              <li>窗口可以拖動、調整大小、最小化和最大化</li>
-              <li>點擊窗口右上角的 X 按鈕關閉窗口</li>
-            </ul>
-          </div>
-          <div className="win98-help-section">
-            <h4>機器視覺訓練流程</h4>
-            <ol>
-              <li>拍攝或上傳樣本圖像</li>
-              <li>觀看圖像預處理過程</li>
-              <li>體驗資料增強效果展示</li>
-              <li>模擬訓練過程並查看結果</li>
-            </ol>
-          </div>
-          <div className="win98-help-actions">
-            <Button onClick={() => closeWindow('help')}>關閉說明</Button>
-          </div>
-        </div>
-      ),
+        id: 'help',
+        title: '說明',
+        icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABI1BMVEUAAAA/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9v///+SJwGTAAAAYHRSTlMAAAAAAAAAAAAAAA9GcJSrGjid3TMGleUJqQFj9h1R8jvpBIT7FkrrM+AEefoRQOUu0gJ4/VnoLMsCePXCIe8Cd/gYkwEyJC0dCBRdp9TiyqN5Vz4qEwINIjtNWmNjUDsnFxECVh6cAAAAAWJLR0RhFMYpMQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+MIBgUbAT0qLQQAAAElSURBVDjL1dLZUsIwFAbgSNO0FBAQoYogLqigKO6iIu6KK+4K6Ps/hCdNaUtamAvH8V64SPL9k5lMziAUolBYUVXtT2BZNoRhiEKGaTq66/7PdcNBEZYVSTdIlCCMsuM6VZ/juK5DagRhJpO1GJPNZAio3+tNp0KhNhFC8bXa5zrqjQ2CcJPX1SjCLb691trbdBCKhAg7PN/ZsXcJwl0s7aG9/QOCcFg3+sjTRkg+JgjrJyfBCYIQjM8k85zLfXEhP1+OLq+ubwxwi8nt3f2D2QP18PhEhufCBZOXVwEvb2/0NaBSrdXrH42mbH40G9+fX9VKWULoK5l2KbHYiiTzlSIU8GlKVCShULRYaTSJFc2S3lRuMZZyE7MlVIiXHcbKDjdXEFH0C5qJoKdS2aJ9AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA2VDA1OjI3OjAxKzAwOjAwBKCG3QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wNlQwNToyNzowMSswMDowMHX9PmEAAAAASUVORK5CYII=',
+        content: (
+            <div className="win98-help-content">
+              <h3>使用說明</h3>
+              <div className="win98-help-section">
+                <h4>基本操作</h4>
+                <ul>
+                  <li>點擊桌面上的「機器視覺訓練」圖標開始體驗</li>
+                  <li>窗口可以拖動、調整大小、最小化和最大化</li>
+                  <li>點擊窗口右上角的 X 按鈕關閉窗口</li>
+                </ul>
+              </div>
+              <div className="win98-help-section">
+                <h4>機器視覺訓練流程</h4>
+                <ol>
+                  <li>拍攝或上傳樣本圖像</li>
+                  <li>觀看圖像預處理過程</li>
+                  <li>體驗資料增強效果展示</li>
+                  <li>模擬訓練過程並查看結果</li>
+                </ol>
+              </div>
+              <div className="win98-help-actions">
+                <Button onClick={() => closeWindow('help')}>關閉說明</Button>
+              </div>
+            </div>
+          ),
+          position: { x: 250, y: 180 },
+          size: { width: 400, height: 350 },
+          resizable: true,
+          minimizable: true,
+          maximizable: true
+        }
+      ];
+    
+      // 渲染登入畫面或桌面
+      if (!isLoggedIn) {
+        return <LoginScreen onLogin={handleLogin} />;
+      }
+    
+      // 渲染桌面環境
+      return (
+        <Desktop
+          icons={desktopIcons}
+          windows={windows}
+          onIconClick={handleIconClick}
+          username={username}
+          activeWindows={activeWindows}
+          activeWindowId={activeWindowId}
+        />
+      );
+    };
+    
+    export default App;
