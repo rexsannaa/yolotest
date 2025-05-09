@@ -153,11 +153,11 @@ const App = () => {
   ];
 
   // 窗口配置
-  const windows = [
+const windows = [
     {
       id: 'trainer',
       title: '機器視覺訓練',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACZFBMVEUAAADQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICDQICD///+yyAKBAAAAynRSTlMAAAAAAAAAAAAAAAAAAAAAAQUGBwgHBQIQJ0pthZmloZZvTyoRBiRbjKzAxcnMzcrBsJJgJQUlW6DAxcnMzczLyMO6saOGY0YxGw8JB0qBp7vFzM/Qzsy6oFozEC5ZiKS3w8nMzMvHwLejiWU9IBkOCQVDc5WsucHGycnIw7msj2AxFwkMM2mNn6y0u7y8uLKnkHJFIxYNCiVOcYaVnqKioZ6YiXRQKBMKBSlSeImWnZ+fm5N/XjYZCAEHFSMzREpQT0s/LRwNAwECAwQFBQQC+LDR2wAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfjAw4RNCYBwVZ8AAAB9klEQVQ4y2NgQAeMTMwsrGzsHJwYYlzcPLx8/AKCQsIioljiYuISklLSMrJy8gqKSijiyiqKqmrqGppa2jq6evoGhkZGxgaGJqYIcTNzC0sraxtbO3sHRydnF1c3dw9PL28fXz//gMCg4JDQsPCIyKjomNi4+ITEpOSU1LT0jMys7JzcvPyCwqLiktKy8orKquqaWkFBnrr6hsam5pbWtvaOzq7unt6+/gkTJ02eMnXa9BkzZ82eM3fe/AULFy1esnTZ8hUrV61es3bd+g0bN23eYigkJLhl67btO3bu2r1n7779Bw4eOnzk6LHjJ06eOn3m7Dnz8xcuXrp85eq16zdu3rp95+69+w8ePnr85Omz5y9evgKJn9dv3uJ4Ux1v3r57/+Hjp89fvn77/uMnokt+/f7z99//f8ia2BGCXP/+/IIbwIxhACMjE9ACZgwDmJmZWcCC7BgGcHBwcrEChbgZMADRiEhOoAKQAF5OkDQeA/jFJKWkZWTl5OQVJBWVlJWUVdTU1TV5+XCEorEmL5+qmoamljYPj46uni4Dr653j56+L0NAYgIfj4BgkBAPj1BoWLiwSIRoZBTI1OiYWDFxfu2ExKRkkKaU1DRJqfQMaZnMrGwemZzcvPyCwiJZ4eKSUjnzMgYGWfmK8koGhqrqmupaBoZ6/QYAvYLKsXv72wIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDMtMTRUMTc6NTI6MzgrMDE6MDBWQAIhAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTAzLTE0VDE3OjUyOjM4KzAxOjAwJx26nQAAAFd6VFh0UmF3IHByb2ZpbGUgdHlwZSBpcHRjAAB4nOPyDAhxVigoyk/LzEnlUgADIwsuYwsTIxNLkxQDEyBEgDTDZAMjs1Qgy9jUyMTMxBzEB8uASKBKLgDqFxF08kI1lQAAAABJRU5ErkJggg==',
+      icon: 'data:image/png;base64,...',
       content: <TrainingDemo onClose={() => closeWindow('trainer')} />,
       position: { x: 100, y: 100 },
       size: { width: 700, height: 500 },
@@ -203,4 +203,81 @@ const App = () => {
     {
       id: 'help',
       title: '說明',
-      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABI1BMVEUAAAA/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9s/k9v///+SJwGTAAAAYHRSTlMAAAAAAAAAAAAAAA9GcJSrGjid3TMGleUJqQFj9h1R8jvpBIT7FkrrM+AEefoRQOUu0gJ4/VnoLMsCePXCIe8Cd/gYkwEyJC0dCBRdp9TiyqN5Vz4qEwINIjtNWmNjUDsnFxECVh6cAAAAAWJLR0RhFMYpMQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB+MIBgUbAT0qLQQAAAElSURBVDjL1dLZUsIwFAbgSNO0FBAQoYogLqigKO6iIu6KK+4K6Ps/hCdNaUtamAvH8V64SPL9k5lMziAUolBYUVXtT2BZNoRhiEKGaTq66/7PdcNBEZYVSTdIlCCMsuM6VZ/juK5DagRhJpO1GJPNZAio3+tNp0KhNhFC8bXa5zrqjQ2CcJPX1SjCLb691trbdBCKhAg7PN/ZsXcJwl0s7aG9/QOCcFg3+sjTRkg+JgjrJyfBCYIQjM8k85zLfXEhP1+OLq+ubwxwi8nt3f2D2QP18PhEhufCBZOXVwEvb2/0NaBSrdXrH42mbH40G9+fX9VKWULoK5l2KbHYiiTzlSIU8GlKVCShULRYaTSJFc2S3lRuMZZyE7MlVIiXHcbKDjdXEFH0C5qJoKdS2aJ9AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE5LTA4LTA2VDA1OjI3OjAxKzAwOjAwBKCG3QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOS0wOC0wNlQwNToyNzowMSswMDowMHX9PmEAAAAASUVORK5CYII='
+      icon: 'data:image/png;base64,...',
+      content: (
+        <div className="win98-help-content">
+          <h3>Windows 98 風格機器視覺演示系統</h3>
+          
+          <div className="win98-help-section">
+            <h4>使用說明：</h4>
+            <p>本系統模擬了Windows 98的經典界面，並提供了一個簡化的機器視覺訓練流程展示。</p>
+          </div>
+          
+          <div className="win98-help-section">
+            <h4>功能介紹：</h4>
+            <ul>
+              <li>雙擊「機器視覺訓練」圖標開始體驗</li>
+              <li>使用相機拍攝樣本圖像</li>
+              <li>觀看資料增強效果</li>
+              <li>模擬訓練過程</li>
+            </ul>
+          </div>
+          
+          <div className="win98-help-section">
+            <h4>操作技巧：</h4>
+            <ul>
+              <li>窗口可以拖動、調整大小</li>
+              <li>任務欄顯示打開的窗口</li>
+              <li>點擊開始菜單可以查看系統選項</li>
+            </ul>
+          </div>
+          
+          <div className="win98-help-actions">
+            <Button onClick={() => closeWindow('help')}>關閉說明</Button>
+          </div>
+        </div>
+      ),
+      position: { x: 250, y: 180 },
+      size: { width: 450, height: 350 },
+      resizable: true,
+      minimizable: true,
+      maximizable: true
+    }
+  ]; // 需要在這裡閉合 windows 數組
+  
+  // 渲染應用
+  return (
+    <>
+      {!isLoggedIn ? (
+        <LoginScreen onLogin={handleLogin} />
+      ) : (
+        <Desktop
+          username={username}
+          icons={desktopIcons}
+          windows={windows}
+          onIconClick={handleIconClick}
+          activeWindows={activeWindows}
+          activeWindowId={activeWindowId}
+        />
+      )}
+    </>
+  );
+  return (
+    <>
+      {!isLoggedIn ? (
+        <LoginScreen onLogin={handleLogin} />
+      ) : (
+        <Desktop
+          username={username}
+          icons={desktopIcons}
+          windows={windows}
+          onIconClick={handleIconClick}
+          activeWindows={activeWindows}
+          activeWindowId={activeWindowId}
+        />
+      )}
+    </>
+  );
+};
+
+export default App;
