@@ -1,152 +1,145 @@
-.camera-capture-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: #c0c0c0;
-  }
+import React, { useState, useRef, useCallback } from 'react';
+import Webcam from 'react-webcam';
+import './CameraCapture.css';
+
+function CameraCapture({ onCapture, onBack }) {
+  const [isCameraReady, setIsCameraReady] = useState(false);
+  const [capturedImage, setCapturedImage] = useState(null);
+  const [error, setError] = useState(null);
+  const webcamRef = useRef(null);
   
-  .camera-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    background-color: #c0c0c0;
-    border-bottom: 1px solid #808080;
-  }
+  // 處理相機就緒
+  const handleUserMedia = () => {
+    setIsCameraReady(true);
+    setError(null);
+  };
   
-  .camera-header h2 {
-    margin: 0;
-    font-size: 14px;
-  }
+  // 處理相機錯誤
+  const handleError = (err) => {
+    console.error('相機存取錯誤:', err);
+    setError('無法存取相機。請確保您已授予相機存取權限並重試。');
+  };
   
-  .camera-select-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  // 拍照
+  const captureImage = useCallback(() => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedImage(imageSrc);
+    }
+  }, [webcamRef]);
   
-  .win95-select {
-    padding: 2px;
-    background-color: white;
-    font-family: 'MS Sans Serif', sans-serif;
-    font-size: 12px;
-    border: 2px solid #c0c0c0;
-    box-shadow: 
-      inset 1px 1px 0 0 #000000,
-      inset -1px -1px 0 0 #DFDFDF;
-  }
+  // 重新拍攝
+  const retake = () => {
+    setCapturedImage(null);
+  };
   
-  .camera-content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px;
-    background-color: #c0c0c0;
-    position: relative;
-  }
+  // 保存圖片
+  const saveImage = () => {
+    if (capturedImage && onCapture) {
+      onCapture(capturedImage);
+    }
+  };
   
-  .webcam-container {
-    position: relative;
-    width: 640px;
-    height: 480px;
-    border: 2px solid #808080;
-    box-shadow: 
-      inset 1px 1px 0 0 #000000,
-      inset -1px -1px 0 0 #FFFFFF;
-    overflow: hidden;
-  }
+  // 返回上一頁
+  const goBack = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
   
-  .webcam {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .loading-camera {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 14px;
-  }
-  
-  .camera-error {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .error-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  
-  .captured-image-container {
-    position: relative;
-    width: 640px;
-    height: 480px;
-    border: 2px solid #808080;
-    overflow: hidden;
-  }
-  
-  .captured-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  
-  .capture-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .camera-controls {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    padding: 16px;
-    background-color: #c0c0c0;
-  }
-  
-  .primary-button {
-    font-weight: bold;
-  }
-  
-  .camera-status-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 4px 8px;
-    background-color: #c0c0c0;
-    border-top: 1px solid #808080;
-    font-size: 12px;
-  }
-  
-  .status-item {
-    padding: 0 8px;
-  }
+  return (
+    <div className="camera-capture-container">
+      <div className="camera-header">
+        <h2>相機捕獲</h2>
+        <div className="camera-select-container">
+          <label htmlFor="camera-select">選擇相機:</label>
+          <select id="camera-select" className="win95-select">
+            <option>預設相機</option>
+          </select>
+        </div>
+      </div>
+      
+      <div className="camera-content">
+        {error ? (
+          <div className="camera-error">
+            <div className="error-icon">!</div>
+            <p>{error}</p>
+            <button 
+              className="win95-button" 
+              onClick={() => window.location.reload()}
+            >
+              重試
+            </button>
+          </div>
+        ) : capturedImage ? (
+          <div className="captured-image-container">
+            <img 
+              src={capturedImage} 
+              alt="已捕獲的圖像" 
+              className="captured-image" 
+            />
+            <div className="capture-info">
+              已成功拍攝！請選擇保存或重新拍攝。
+            </div>
+          </div>
+        ) : (
+          <div className="webcam-container">
+            <Webcam
+              ref={webcamRef}
+              audio={false}
+              screenshotFormat="image/jpeg"
+              onUserMedia={handleUserMedia}
+              onUserMediaError={handleError}
+              className="webcam"
+            />
+            {!isCameraReady && (
+              <div className="loading-camera">
+                正在啟動相機...
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      
+      <div className="camera-controls">
+        {capturedImage ? (
+          <>
+            <button className="win95-button" onClick={retake}>
+              重新拍攝
+            </button>
+            <button 
+              className="win95-button primary-button" 
+              onClick={saveImage}
+            >
+              保存圖像
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="win95-button" onClick={goBack}>
+              返回
+            </button>
+            <button 
+              className="win95-button primary-button" 
+              onClick={captureImage}
+              disabled={!isCameraReady}
+            >
+              拍照
+            </button>
+          </>
+        )}
+      </div>
+      
+      <div className="camera-status-bar">
+        <div className="status-item">
+          {isCameraReady ? '相機就緒' : '正在初始化相機...'}
+        </div>
+        <div className="status-item">
+          {capturedImage ? '圖像已捕獲' : '準備拍攝'}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default CameraCapture;

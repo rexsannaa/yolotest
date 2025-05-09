@@ -1,9 +1,12 @@
 {
   "name": "win95-vision-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Windows 95風格機器視覺教學網站",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
