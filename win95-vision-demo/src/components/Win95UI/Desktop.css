@@ -1,0 +1,160 @@
+.win95-desktop {
+    width: 100vw;
+    height: 100vh;
+    background-color: #008080;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+  }
+  
+  .win95-desktop-icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-auto-rows: 90px;
+    padding: 8px;
+    gap: 8px;
+  }
+  
+  .win95-desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    padding: 4px;
+  }
+  
+  .win95-desktop-icon:focus,
+  .win95-desktop-icon.active {
+    background-color: rgba(0, 0, 128, 0.5);
+    outline: 1px dotted #000080;
+  }
+  
+  .win95-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .win95-icon.computer {
+    background-image: url('/assets/win95-icons/computer.png');
+  }
+  
+  .win95-icon.recycle-bin {
+    background-image: url('/assets/win95-icons/recycle-bin.png');
+  }
+  
+  .win95-icon.notepad {
+    background-image: url('/assets/win95-icons/notepad.png');
+  }
+  
+  .win95-icon.camera {
+    background-image: url('/assets/win95-icons/camera.png');
+  }
+  
+  .win95-icon-label {
+    font-size: 12px;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  /* 系統窗口內容樣式 */
+  .system-window-content {
+    padding: 8px;
+    height: 100%;
+  }
+  
+  .folder-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .folder-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #808080;
+  }
+  
+  .folder-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 4px;
+  }
+  
+  .folder-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    cursor: pointer;
+  }
+  
+  .folder-item:hover .folder-item-name {
+    background-color: #000080;
+    color: white;
+  }
+  
+  .folder-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .folder-icon.disk-icon {
+    background-image: url('/assets/win95-icons/harddrive.png');
+  }
+  
+  .folder-icon.cd-icon {
+    background-image: url('/assets/win95-icons/cd-drive.png');
+  }
+  
+  .folder-icon.network-icon {
+    background-image: url('/assets/win95-icons/network.png');
+  }
+  
+  .folder-item-name {
+    font-size: 12px;
+    text-align: center;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 1px 3px;
+  }
+  
+  .empty-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 14px;
+  }
+  
+  .notepad-content {
+    width: 100%;
+    height: calc(100% - 16px);
+    background-color: white;
+    border: 1px solid #808080;
+    font-family: 'MS Sans Serif', monospace;
+    font-size: 12px;
+    padding: 4px;
+    resize: none;
+    box-sizing: border-box;
+  }
+  
+  .active-window {
+    z-index: 10 !important;
+  }

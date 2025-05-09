@@ -1,0 +1,130 @@
+.login-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #008080;
+    color: white;
+  }
+  
+  .login-form-container {
+    background-color: #c0c0c0;
+    border: 3px solid #c0c0c0;
+    box-shadow: 
+      inset -1px -1px 0 0 #000000,
+      inset 1px 1px 0 0 #FFFFFF,
+      inset -2px -2px 0 0 #808080,
+      inset 2px 2px 0 0 #DFDFDF;
+    padding: 16px;
+    width: 100%;
+    max-width: 400px;
+    color: black;
+  }
+  
+  .login-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .windows-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+  }
+  
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logo-square {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .red { background-color: #ff0000; }
+  .green { background-color: #00ff00; }
+  .blue { background-color: #0000ff; }
+  .yellow { background-color: #ffff00; }
+  
+  .login-title {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-title h1 {
+    margin: 0;
+    font-size: 20px;
+  }
+  
+  .login-title h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+  }
+  
+  .win95-input {
+    padding: 4px;
+    border: 2px solid #c0c0c0;
+    box-shadow: 
+      inset 1px 1px 0 0 #000000,
+      inset -1px -1px 0 0 #DFDFDF;
+    background-color: white;
+    font-family: 'MS Sans Serif', sans-serif;
+    font-size: 14px;
+  }
+  
+  .win95-input:focus {
+    outline: 1px dotted #000;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  .form-footer {
+    margin-top: 16px;
+  }
+  
+  .login-instruction {
+    font-size: 12px;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  .login-screen-footer {
+    margin-top: 40px;
+    font-size: 12px;
+    opacity: 0.7;
+    text-align: center;
+  }
+  
+  .system-info p {
+    margin: 4px 0;
+  }

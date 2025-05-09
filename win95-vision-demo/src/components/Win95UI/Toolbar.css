@@ -1,0 +1,185 @@
+.win95-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 28px;
+    background-color: #c0c0c0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 
+      inset 0px 1px 0 0 #FFFFFF,
+      inset 0px -1px 0 0 #000000,
+      inset 0px -2px 0 0 #808080;
+  }
+  
+  .win95-toolbar-left {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .win95-toolbar-right {
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+  }
+  
+  .win95-start-button {
+    display: flex;
+    align-items: center;
+    height: 22px;
+    margin: 2px 3px;
+    padding: 0 4px;
+    background-color: #c0c0c0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'MS Sans Serif', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 
+      inset -1px -1px 0 0 #000000,
+      inset 1px 1px 0 0 #FFFFFF,
+      inset -2px -2px 0 0 #808080,
+      inset 2px 2px 0 0 #DFDFDF;
+  }
+  
+  .win95-start-button.active {
+    box-shadow: 
+      inset 1px 1px 0 0 #000000,
+      inset -1px -1px 0 0 #FFFFFF,
+      inset 2px 2px 0 0 #808080,
+      inset -2px -2px 0 0 #DFDFDF;
+  }
+  
+  .win95-logo-small {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    background-image: url('/assets/win95-icons/windows-logo-small.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .win95-toolbar-time {
+    min-width: 55px;
+    height: 22px;
+    margin: 2px 0;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c0c0c0;
+    font-size: 11px;
+    box-shadow: 
+      inset 1px 1px 0 0 #808080,
+      inset -1px -1px 0 0 #FFFFFF;
+  }
+  
+  /* 開始菜單樣式 */
+  .win95-start-menu {
+    position: absolute;
+    left: 2px;
+    bottom: 28px;
+    width: 180px;
+    background-color: #c0c0c0;
+    border: 2px solid #c0c0c0;
+    box-shadow: 
+      inset -1px -1px 0 0 #000000,
+      inset 1px 1px 0 0 #FFFFFF,
+      inset -2px -2px 0 0 #808080,
+      inset 2px 2px 0 0 #DFDFDF;
+    z-index: 1001;
+  }
+  
+  .win95-start-menu-header {
+    background-color: #808080;
+    padding: 2px;
+    height: 30px;
+  }
+  
+  .win95-start-menu-logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .win95-start-menu-logo .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+  }
+  
+  .win95-start-menu-logo .logo-square {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .win95-start-menu-logo .red { background-color: #ff0000; }
+  .win95-start-menu-logo .green { background-color: #00ff00; }
+  .win95-start-menu-logo .blue { background-color: #0000ff; }
+  .win95-start-menu-logo .yellow { background-color: #ffff00; }
+  
+  .win95-start-menu-logo span {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transform: rotate(-90deg);
+    transform-origin: left center;
+    white-space: nowrap;
+    position: relative;
+    left: -6px;
+    top: 12px;
+  }
+  
+  .win95-start-menu-items {
+    padding: 2px 0;
+  }
+  
+  .win95-start-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 6px;
+    cursor: pointer;
+  }
+  
+  .win95-start-menu-item:hover {
+    background-color: #000080;
+    color: white;
+  }
+  
+  .win95-start-menu-item-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .win95-start-menu-item-label {
+    font-size: 12px;
+    flex-grow: 1;
+  }
+  
+  .win95-start-menu-item-arrow {
+    font-size: 10px;
+  }
+  
+  .win95-start-menu-divider {
+    height: 1px;
+    margin: 2px 0;
+    background: #808080;
+    border-bottom: 1px solid white;
+  }
+  
+  .shutdown-icon {
+    background-image: url('/assets/win95-icons/shutdown.png');
+  }
