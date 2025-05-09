@@ -43,31 +43,31 @@ const globalStyles = `
   }
 `;
 
-// 初始化時添加樣式
-useEffect(() => {
-  const style = document.createElement('style');
-  style.textContent = globalStyles;
-  document.head.appendChild(style);
-  
-  return () => {
-    document.head.removeChild(style);
-  };
-}, []);
-
 const App = () => {
-  // 狀態管理
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [activeWindows, setActiveWindows] = useState([]);
-  const [activeWindowId, setActiveWindowId] = useState(null);
-
+    // 狀態管理
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState('');
+    const [activeWindows, setActiveWindows] = useState([]);
+    const [activeWindowId, setActiveWindowId] = useState(null);
+  
+    // 初始化時添加樣式 - 移到這裡
+    useEffect(() => {
+      const style = document.createElement('style');
+      style.textContent = globalStyles;
+      document.head.appendChild(style);
+      
+      return () => {
+        document.head.removeChild(style);
+      };
+    }, []);
+  
     // 檢查是否已經登入
     useEffect(() => {
-        const savedUsername = localStorage.getItem('win98_username');
-        if (savedUsername) {
+      const savedUsername = localStorage.getItem('win98_username');
+      if (savedUsername) {
         setUsername(savedUsername);
         setIsLoggedIn(true);
-        }
+      }
     }, []);
 
   // 處理登入
@@ -261,4 +261,3 @@ const windows = [
       )}
     </>
   );
-export default App;
