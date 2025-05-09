@@ -43,7 +43,7 @@ const LoginScreen = ({ onLogin }) => {
       <div className="boot-screen">
         <div className="boot-content">
           <div className="boot-logo">
-            Windows<span style={{ fontWeight: 'normal', marginLeft: '4px' }}>98</span>
+            視覺訓練<span style={{ fontWeight: 'normal', marginLeft: '4px' }}>展示檔</span>
           </div>
           
           <div className="boot-progress">
@@ -53,7 +53,7 @@ const LoginScreen = ({ onLogin }) => {
             ></div>
           </div>
           
-          <div>正在啟動 Windows 98...</div>
+          <div> Windows經典美學永不過時</div>
         </div>
       </div>
     );
@@ -63,10 +63,10 @@ const LoginScreen = ({ onLogin }) => {
   return (
     <div className="login-screen">
       <div className="login-container window">
-        <div className="window-title">Windows 登入</div>
+        <div className="window-title">視覺訓練 登入</div>
         <div className="window-body">
           <div className="login-header">
-            請輸入使用者資訊以開始使用 Windows
+            請輸入使用者資訊以開始使用 視覺訓練
           </div>
           
           <form onSubmit={handleSubmit} className="login-form">

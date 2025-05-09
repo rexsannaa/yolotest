@@ -54,6 +54,9 @@ const App = () => {
       case 'help':
         openWindow('help');
         break;
+      case 'text-note':
+        openWindow('text-note');
+        break;
       case 'logout':
         handleLogout();
         break;
@@ -61,6 +64,7 @@ const App = () => {
         break;
     }
   };
+  
 
   // Open window
   const openWindow = (id) => {
@@ -104,7 +108,13 @@ const App = () => {
       id: 'logout',
       icon: '/icons/logout.png',
       label: '登出'
+    },
+    {
+      id: 'text-note',
+      icon: '/icons/notepad.png',
+      label: '碩士報名表'
     }
+    
   ];
 
   // Window configurations
@@ -197,7 +207,32 @@ const App = () => {
       resizable: true,
       minimizable: true,
       maximizable: true
+    },
+    {
+      id: 'text-note',
+      title: '碩士報名表',
+      icon: '/icons/notepad.png',
+      content: (
+        <div className="window-content">
+          <pre style={{
+            whiteSpace: 'pre-wrap',
+            fontFamily: 'Courier New',
+            fontSize: '12px'
+          }}>
+    {`歡迎來到先進智慧製造中心。
+我們致力於智慧製造研究與技術開發。
+有興趣的同學歡迎
+找王聖禾教授共同學習研究。`}
+          </pre>
+        </div>
+      ),
+      position: { x: 300, y: 200 },
+      size: { width: 400, height: 300 },
+      resizable: false,
+      minimizable: true,
+      maximizable: false
     }
+    
   ];
   
   return (
