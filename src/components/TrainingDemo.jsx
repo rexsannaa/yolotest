@@ -438,3 +438,4 @@ const TrainingDemo = ({ onClose }) => {
     </div>
   );
 };
+export default TrainingDemo;

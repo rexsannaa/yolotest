@@ -201,21 +201,25 @@ const App = () => {
   ];
   
   return (
-    <div className="win98-app">
-      {!isLoggedIn ? (
-        <LoginScreen onLogin={handleLogin} />
-      ) : (
-        <Desktop
-          username={username}
-          icons={desktopIcons}
-          windows={windows}
-          onIconClick={handleIconClick}
-          activeWindows={activeWindows}
-          activeWindowId={activeWindowId}
-          onWindowActivate={setActiveWindowId}
-          onWindowClose={closeWindow}
-        />
-      )}
+    <div className="screen-container">
+      <div className="scaled-wrapper">
+        <div className="win98-app">
+          {!isLoggedIn ? (
+            <LoginScreen onLogin={handleLogin} />
+          ) : (
+            <Desktop
+              username={username}
+              icons={desktopIcons}
+              windows={windows}
+              onIconClick={handleIconClick}
+              activeWindows={activeWindows}
+              activeWindowId={activeWindowId}
+              onWindowActivate={setActiveWindowId}
+              onWindowClose={closeWindow}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
