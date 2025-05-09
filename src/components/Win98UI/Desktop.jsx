@@ -51,15 +51,22 @@ const Desktop = ({
   };
   
   // 關閉窗口
-  const closeWindow = (id) => {
-    setActiveWindows(prev => prev.filter(windowId => windowId !== id));
-    
-    // 如果關閉的是當前活動窗口，則將最上層的窗口設為活動窗口
-    if (activeWindowId === id && activeWindows.length > 1) {
-      const newActiveWindows = activeWindows.filter(windowId => windowId !== id);
-      setActiveWindowId(newActiveWindows[newActiveWindows.length - 1]);
-    }
-  };
+  // 關閉窗口
+    const closeWindow = (id) => {
+        setActiveWindows(prev => prev.filter(windowId => windowId !== id));
+        
+        // 如果關閉的是當前活動窗口
+        if (activeWindowId === id) {
+        const newActiveWindows = activeWindows.filter(windowId => windowId !== id);
+        if (newActiveWindows.length > 0) {
+            // 還有其他窗口，將最上層窗口設為活動窗口
+            setActiveWindowId(newActiveWindows[newActiveWindows.length - 1]);
+        } else {
+            // 沒有其他窗口了，設為 null
+            setActiveWindowId(null);
+        }
+        }
+    };
   
   // 切換開始選單
   const toggleStartMenu = () => {

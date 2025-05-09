@@ -758,10 +758,22 @@ const styles = `
   }
 `;
 
-// 將樣式添加到文檔中
-const styleSheet = document.createElement('style');
-styleSheet.type = 'text/css';
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);
-
-export default TrainingDemo;
+// 使用 useEffect 管理樣式
+const TrainingDemoWithStyles = (props) => {
+    useEffect(() => {
+      const styleSheet = document.createElement('style');
+      styleSheet.type = 'text/css';
+      styleSheet.innerText = styles;
+      document.head.appendChild(styleSheet);
+      
+      return () => {
+        if (document.head.contains(styleSheet)) {
+          document.head.removeChild(styleSheet);
+        }
+      };
+    }, []);
+  
+    return <TrainingDemo {...props} />;
+  };
+  
+  export default TrainingDemoWithStyles;
